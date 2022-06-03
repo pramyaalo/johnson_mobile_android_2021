@@ -2258,6 +2258,7 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             public void onClick(View v) {
 
                 Current_date = date.getText().toString();
+                Collection_type = date.getText().toString();
                 Agent_code = "AG-" + agent_code.getText().toString();
                 Cheq_no = chq_no.getText().toString();
                 Rtgs_no = rtgs_no.getText().toString();

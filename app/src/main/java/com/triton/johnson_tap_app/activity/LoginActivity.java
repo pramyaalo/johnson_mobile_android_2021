@@ -36,6 +36,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
+import com.triton.johnson_tap_app.Dashbaord_MainActivity;
 import com.triton.johnson_tap_app.api.APIInterface;
 import com.triton.johnson_tap_app.api.RetrofitClient;
 import com.triton.johnson_tap_app.materialeditext.MaterialEditText;
@@ -336,7 +337,7 @@ public class LoginActivity extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
-                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, Dashbaord_MainActivity.class));
                                         }
                                     });
 

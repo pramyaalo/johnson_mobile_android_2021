@@ -1,13 +1,18 @@
 package com.triton.johnson_tap_app;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -25,9 +30,6 @@ public class PetBreedTypesListAdapter extends  RecyclerView.Adapter<RecyclerView
     BreedTypeResponse1.DataBean currentItem;
     private List<BreedTypeResponse1.DataBean> breedTypedataBeanList;
     private PetBreedTypeSelectListener petBreedTypeSelectListener;
-
-
-
 
     public PetBreedTypesListAdapter(Context context, List<BreedTypeResponse1.DataBean> breedTypedataBeanList, PetBreedTypeSelectListener petBreedTypeSelectListener ) {
         this.context = context;
@@ -56,27 +58,26 @@ public class PetBreedTypesListAdapter extends  RecyclerView.Adapter<RecyclerView
         currentItem = breedTypedataBeanList.get(position);
 
         if(currentItem.getEMPNO() != null){
-            holder.txt_breedtype.setText(currentItem.getEMPNAME());
+            holder.txt_breedtype.setText(currentItem.getEMPNAME() + "," + currentItem.getEMPNO());
 
         }
 
-        holder.ll_root.setOnClickListener(new View.OnClickListener() {
+        holder.txt_breedtype.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 breedTypedataBeanList.get(position).getEMPNAME();
 
-                Log.w(TAG,"breedTypedataBeanList : "+new Gson().toJson(breedTypedataBeanList));
+                String s = breedTypedataBeanList.get(position).getEMPNAME() + "," + breedTypedataBeanList.get(position).getEMPNO();
 
-//                for (int i=0;i<breedTypedataBeanList.size();i++){
-//                    breedTypedataBeanList.get(i).setSelected(false);
-//                }
-//                breedTypedataBeanList.get(position).setSelected(true);
-//                notifyDataSetChanged();
-//                if(breedTypedataBeanList.get(position).getEMPNAME() != null && breedTypedataBeanList.get(position).getEMPNO() != null){
-//                    petBreedTypeSelectListener.petBreedTypeSelectListener(breedTypedataBeanList.get(position).getEMPNAME(),breedTypedataBeanList.get(position).getEMPNO());
-//
-//                }
+                Toast.makeText(context, "value" + s, Toast.LENGTH_LONG).show();
+
+                SharedPreferences sharedPref = context.getSharedPreferences("myKey", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("value", s);
+                editor.apply();
+
+
             }
         });
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.triton.johnson_tap_app.api.APIInterface;
@@ -42,45 +45,49 @@ public class Spinner_addActivity extends AppCompatActivity implements PetBreedTy
     private String PetBreedType = "";
     @SuppressLint("NonConstantResourceId")
     LinearLayout ll_pettypeandbreed;
-
+    TextView Seleted;
     RecyclerView rv_breedtype;
     LinearLayout ll_pettype,ll_breedtype;
+    String value = "";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spinner_add);
 
-        breedTypeResponseByPetIdCall("L-0112");
-
         ll_pettypeandbreed = (LinearLayout) findViewById(R.id.ll_pettypeandbreed);
+        Seleted = (TextView) findViewById(R.id.selected);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("myKey", MODE_PRIVATE);
+        value = sharedPreferences.getString("value","");
+        Seleted.setText(value);
+
+      //  Toast.makeText(Spinner_addActivity.this, "valueeeee" + value, Toast.LENGTH_LONG).show();
 
         ll_pettypeandbreed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupPetType();
+                try {
+
+                    Dialog dialog = new Dialog(Spinner_addActivity.this);
+                    dialog.setContentView(R.layout.alert_pettype_layout);
+                    dialog.setCanceledOnTouchOutside(false);
+
+                    ll_breedtype = dialog.findViewById(R.id.ll_breedtype);
+                    rv_breedtype = dialog.findViewById(R.id.rv_breedtype);
+
+                    breedTypeResponseByPetIdCall("L-0112");
+
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+
+                } catch (WindowManager.BadTokenException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
-    private void showPopupPetType() {
-        try {
-
-            Dialog dialog = new Dialog(Spinner_addActivity.this);
-            dialog.setContentView(R.layout.alert_pettype_layout);
-            dialog.setCanceledOnTouchOutside(false);
-
-            ll_breedtype = dialog.findViewById(R.id.ll_breedtype);
-            rv_breedtype = dialog.findViewById(R.id.rv_breedtype);
-
-            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-
-        } catch (WindowManager.BadTokenException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void breedTypeResponseByPetIdCall(String petTypeId) {
             APIInterface apiInterface = RetrofitClient.getClient().create(APIInterface.class);

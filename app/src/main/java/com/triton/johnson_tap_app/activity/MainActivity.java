@@ -12,7 +12,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.triton.johnson_tap_app.Dashbaord_MainActivity;
+import com.triton.johnson_tap_app.Main_Menu_ServicesActivity;
 import com.triton.johnson_tap_app.R;
 import com.triton.johnson_tap_app.session.SessionManager;
 
@@ -41,20 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NonConstatntResourceId")
     @BindView(R.id.btn_general)
     Button btn_general;
-
-//    @SuppressLint("NonConstantResourceId")
-//    @BindView(R.id.btn_webview)
-//    Button btn_webview;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.btn_goback)
-    Button btn_goback;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.webView)
-    WebView webView;
-
-
+    ImageView iv_back;
     private SessionManager session;
     private String url = "http://smart.johnsonliftsltd.com/";
     private ProgressDialog progDailog;
@@ -62,20 +52,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+     //   getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
         Log.w(TAG,"Oncreate -->");
         session = new SessionManager(getApplicationContext());
+        iv_back = (ImageView) findViewById(R.id.iv_back);
 
-        webView.setVisibility(View.GONE);
-        btn_goback.setVisibility(View.GONE);
-        //btn_webview.setVisibility(View.INVISIBLE);
-
-        btn_goback.setOnClickListener(new View.OnClickListener() {
+        iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+                Intent send = new Intent(MainActivity.this, Dashbaord_MainActivity.class);
+                startActivity(send);
+
             }
         });
 
@@ -88,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         btn_job.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,29 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void goWebView() {
-        webView.setVisibility(View.VISIBLE);
-        btn_goback.setVisibility(View.VISIBLE);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.setWebViewClient(new WebViewClient(){
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                progDailog.show();
-                view.loadUrl(url);
-
-                return true;
-            }
-            @Override
-            public void onPageFinished(WebView view, final String url) {
-                progDailog.dismiss();
-            }
-        });
-        webView.loadUrl(url);
-
-    }
 
     @Override
     public void onBackPressed() {

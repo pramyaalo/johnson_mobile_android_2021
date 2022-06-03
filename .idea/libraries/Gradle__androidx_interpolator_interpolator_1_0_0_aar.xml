@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.interpolator:interpolator:1.0.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/680b9530e9444e5e395d8bdd69040a56/transformed/interpolator-1.0.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/680b9530e9444e5e395d8bdd69040a56/transformed/interpolator-1.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/680b9530e9444e5e395d8bdd69040a56/transformed/interpolator-1.0.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/9977eb8b3bb409e5af237fcf6e8dc0d2/transformed/interpolator-1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/9977eb8b3bb409e5af237fcf6e8dc0d2/transformed/interpolator-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/9977eb8b3bb409e5af237fcf6e8dc0d2/transformed/interpolator-1.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
