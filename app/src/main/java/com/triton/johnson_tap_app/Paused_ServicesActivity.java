@@ -6,16 +6,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 public class Paused_ServicesActivity extends AppCompatActivity {
 
     ImageView iv_back;
-
+    String value="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            value = extras.getString("value");
+
+        }
+
 
         setContentView(R.layout.activity_paused_services);
 
@@ -38,8 +46,15 @@ public class Paused_ServicesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent send = new Intent(Paused_ServicesActivity.this,Customer_DetailsActivity.class);
-                startActivity(send);
+                if(value.equals("pasused")){
+
+                    Intent send = new Intent(Paused_ServicesActivity.this, Preventive_ServiceActivity.class);
+                    startActivity(send);
+                }
+                else {
+                    Intent send = new Intent(Paused_ServicesActivity.this, Customer_DetailsActivity.class);
+                    startActivity(send);
+                }
 
             }
         });

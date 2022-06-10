@@ -328,39 +328,42 @@ public class LoginActivity extends AppCompatActivity {
                     message = response.body().getMessage();
                     if (200 == response.body().getCode()) {
 
-
-                        if(status.equals("0")){
-
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                            alertDialogBuilder.setMessage("Allow");
-                            alertDialogBuilder.setPositiveButton("yes",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            startActivity(new Intent(LoginActivity.this, Dashbaord_MainActivity.class));
-                                        }
-                                    });
-
-//                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-//                                    Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        finish();
-//                                    }
-//                                });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
-                        }
-
-                        else {
-                            Toast.makeText(LoginActivity.this,"Status 1",Toast.LENGTH_LONG).show();
-                        }
-
-                    } else {
-                        dialog.dismiss();
-                        Toasty.warning(getApplicationContext(),""+message,Toasty.LENGTH_LONG).show();
-
+                        startActivity(new Intent(LoginActivity.this, Dashbaord_MainActivity.class));
                     }
+
+
+//                        if(status.equals("0")){
+//
+//                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+//                            alertDialogBuilder.setMessage("Allow");
+//                            alertDialogBuilder.setPositiveButton("yes",
+//                                    new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface arg0, int arg1) {
+//                                            startActivity(new Intent(LoginActivity.this, Dashbaord_MainActivity.class));
+//                                        }
+//                                    });
+//
+////                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+////                                    Override
+////                                    public void onClick(DialogInterface dialog, int which) {
+////                                        finish();
+////                                    }
+////                                });
+//
+//                            AlertDialog alertDialog = alertDialogBuilder.create();
+//                            alertDialog.show();
+//                        }
+//
+//                        else {
+//                            Toast.makeText(LoginActivity.this,"Status 1",Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    } else {
+//                        dialog.dismiss();
+//                        Toasty.warning(getApplicationContext(),""+message,Toasty.LENGTH_LONG).show();
+//
+//                    }
                 }
 
 

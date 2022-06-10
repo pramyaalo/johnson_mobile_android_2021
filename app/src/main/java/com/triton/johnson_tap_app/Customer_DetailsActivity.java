@@ -69,10 +69,10 @@ public class Customer_DetailsActivity extends AppCompatActivity {
                 ll_start.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      //  confirmStartJobDialog();
-                        dialog.dismiss();
 
-                        // inclued johnson mobile app == Forms ->InputValueFormListActivity -> is 1st form
+                        Intent send = new Intent(Customer_DetailsActivity.this,InputValueFormListActivity.class);
+                        startActivity(send);
+                        dialog.dismiss();
                     }
                 });
 

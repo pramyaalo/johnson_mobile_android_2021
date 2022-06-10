@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.multidex.BuildConfig;
 
+import com.triton.johnson_tap_app.Dashbaord_MainActivity;
 import com.triton.johnson_tap_app.DownloadapkfileActivity;
 import com.triton.johnson_tap_app.GetFetchLatestVersionResponse;
 import com.triton.johnson_tap_app.Getlatestversionrequest;
@@ -103,7 +104,7 @@ public class SplashActivity extends AppCompatActivity {
                                         // check whether user is logged in or not
                                         if (sessionManager.isLoggedIn()) {
 
-                                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                            Intent intent = new Intent(SplashActivity.this, Dashbaord_MainActivity.class);
                                             startActivity(intent);
                                             overridePendingTransition(R.anim.new_right, R.anim.new_left);
                                         }

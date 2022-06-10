@@ -683,6 +683,82 @@
 
             </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype3"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype4"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype5"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype6"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype7"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype8"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/rv_breedtype9"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+
             <!-- Job Details -->
 
             <LinearLayout

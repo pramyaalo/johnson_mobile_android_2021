@@ -1,16 +1,18 @@
 package com.triton.johnson_tap_app.api;
 
-import com.triton.johnson_tap_app.AppointmentCheckResponse;
-import com.triton.johnson_tap_app.BreedTypeRequest;
 import com.triton.johnson_tap_app.BreedTypeRequest1;
-import com.triton.johnson_tap_app.BreedTypeResponse;
 import com.triton.johnson_tap_app.BreedTypeResponse1;
 import com.triton.johnson_tap_app.GetFetchLatestVersionResponse;
 import com.triton.johnson_tap_app.JobFindRequest;
 import com.triton.johnson_tap_app.JobnoFindResponse;
+import com.triton.johnson_tap_app.SubmitDailyRequest;
+import com.triton.johnson_tap_app.SubmitDailyResponse;
 import com.triton.johnson_tap_app.requestpojo.AttendanceCreateRequest;
+import com.triton.johnson_tap_app.requestpojo.GetFieldListRequest;
 import com.triton.johnson_tap_app.requestpojo.LoginRequest;
 import com.triton.johnson_tap_app.responsepojo.FileUploadResponse;
+import com.triton.johnson_tap_app.responsepojo.FormDataStoreResponse;
+import com.triton.johnson_tap_app.responsepojo.GetFieldListResponse;
 import com.triton.johnson_tap_app.responsepojo.LoginResponse;
 import com.triton.johnson_tap_app.responsepojo.SuccessResponse;
 
@@ -45,11 +47,6 @@ public interface APIInterface {
     @POST("activity/form3_rtgs_jobno_find")
     Call<JobnoFindResponse> JobnoFindResponseCall(@Header("Content-Type") String type, @Body JobFindRequest emailOTPRequest);
 
-
-//    @POST("activity/form3_rtgs_jobno_find")
-//    Call<BreedTypeResponse> breedTypeResponseByPetIdCall(@Header("Content-Type") String type, @Body BreedTypeRequest emailOTPRequest);
-
-
     /*Image upload*/
     @Multipart
     @POST("upload")
@@ -57,5 +54,8 @@ public interface APIInterface {
 
     @POST("activity/get_joins_user_list")
     Call<BreedTypeResponse1> breedTypeResponseByPetIdCall(@Header("Content-Type") String type, @Body BreedTypeRequest1 breedTypeRequest);
+
+    @POST("activity/form3_submit")
+    Call<SubmitDailyResponse> locationAddResponseCall(@Header("Content-Type") String type, @Body SubmitDailyRequest locationAddRequest);
 
 }

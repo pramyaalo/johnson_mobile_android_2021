@@ -37,8 +37,8 @@ public class MyListAdapter2 extends RecyclerView.Adapter<MyListAdapter2.ViewHold
             @Override
             public void onClick(View view) {
 
-                Intent send = new Intent(context, Preventive_ServiceActivity.class);
-                context.startActivity(send);
+//                Intent send = new Intent(context, Preventive_ServiceActivity.class);
+//                context.startActivity(send);
             }
         });
 
@@ -46,8 +46,8 @@ public class MyListAdapter2 extends RecyclerView.Adapter<MyListAdapter2.ViewHold
             @Override
             public void onClick(View view) {
 
-                Intent send = new Intent(context, Preventive_ServiceActivity.class);
-                context.startActivity(send);
+//                Intent send = new Intent(context, Preventive_ServiceActivity.class);
+//                context.startActivity(send);
             }
         });
 
@@ -55,8 +55,8 @@ public class MyListAdapter2 extends RecyclerView.Adapter<MyListAdapter2.ViewHold
             @Override
             public void onClick(View view) {
 
-                Intent send = new Intent(context, Preventive_ServiceActivity.class);
-                context.startActivity(send);
+//                Intent send = new Intent(context, Preventive_ServiceActivity.class);
+//                context.startActivity(send);
             }
         });
     }

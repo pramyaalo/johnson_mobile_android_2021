@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -25,7 +26,7 @@ public class Agent_ProfileActivity extends AppCompatActivity {
 
     ImageView iv_back;
     Button submit;
-    EditText agent_code, agent_name, agent_status;
+    TextView agent_code, agent_name, agent_status;
     String s_agent_code, s_agent_name, s_agent_status;
     AlertDialog alertDialog;
 
@@ -35,10 +36,9 @@ public class Agent_ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agent_profile);
 
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        submit = (Button) findViewById(R.id.submit);
-        agent_code = (EditText)findViewById(R.id.agent_code);
-        agent_name = (EditText)findViewById(R.id.agent_name);
-        agent_status = (EditText)findViewById(R.id.agent_status);
+        agent_code = (TextView)findViewById(R.id.agent_code);
+        agent_name = (TextView)findViewById(R.id.agent_name);
+        agent_status = (TextView)findViewById(R.id.agent_status);
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,36 +47,6 @@ public class Agent_ProfileActivity extends AppCompatActivity {
                 Intent send = new Intent(Agent_ProfileActivity.this, Main_Menu_ServicesActivity.class);
                 startActivity(send);
 
-            }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                s_agent_code = agent_code.getText().toString();
-                s_agent_name = agent_name.getText().toString();
-                s_agent_status = agent_status.getText().toString();
-
-                if (s_agent_code.equals("") || s_agent_name.equals("") || s_agent_status.equals("")){
-
-                    alertDialog = new AlertDialog.Builder(Agent_ProfileActivity.this)
-
-                            .setMessage("Please Fill the All Values")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    alertDialog.dismiss();
-                                }
-                            })
-                            .show();
-                }
-                else {
-
-                    Toast.makeText(getApplicationContext(), "Your Agent Code is : " + s_agent_code + "\n" + "Your Agent Name is :" + s_agent_name + "\n" + "Your Agent Status is :" + s_agent_status, Toast.LENGTH_LONG).show();
-
-                    Intent send = new Intent(Agent_ProfileActivity.this, Main_Menu_ServicesActivity.class);
-                    startActivity(send);
-                }
             }
         });
     }

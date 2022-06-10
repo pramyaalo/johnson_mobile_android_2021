@@ -142,8 +142,6 @@ public class PetBreedTypesListAdapter extends  RecyclerView.Adapter<RecyclerView
         public TextView txt_breedtype;
         public LinearLayout ll_root;
 
-
-
         public ViewHolderOne(View itemView) {
             super(itemView);
 
@@ -153,25 +151,5 @@ public class PetBreedTypesListAdapter extends  RecyclerView.Adapter<RecyclerView
 
         }
 
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -1,18 +1,15 @@
 package com.triton.johnson_tap_app;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-
+import com.triton.johnson_tap_app.api.RetrofitClient;
 import java.util.List;
 
 public class PetCurrentImageListAdapter extends RecyclerView.Adapter<PetCurrentImageListAdapter.AddImageListHolder> {
@@ -24,8 +21,6 @@ public class PetCurrentImageListAdapter extends RecyclerView.Adapter<PetCurrentI
     public PetCurrentImageListAdapter(Context context, List<PetAppointmentCreateRequest.PetImgBean> pet_imgList) {
         this.context = context;
         this.pet_imgList = pet_imgList;
-
-
     }
 
     @NonNull
@@ -46,6 +41,11 @@ public class PetCurrentImageListAdapter extends RecyclerView.Adapter<PetCurrentI
         if (petImgBean.getPet_img()!= null) {
             Glide.with(context)
                     .load(petImgBean.getPet_img())
+                    .into(holder.certificate_pics_1);
+        }
+        else{
+            Glide.with(context)
+                    .load(RetrofitClient.BANNER_IMAGE_URL)
                     .into(holder.certificate_pics_1);
 
         }
@@ -70,6 +70,4 @@ public class PetCurrentImageListAdapter extends RecyclerView.Adapter<PetCurrentI
             removeImg = itemView.findViewById(R.id.close);
         }
     }
-
-
 }

@@ -67,18 +67,18 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="5dp"
                 android:text="Agent Code"
-                android:textColor="#000000"
+                android:textColor="#213e9a"
                 android:textSize="15dp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/agent_code"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
                 android:inputType="number"
-                android:background="@drawable/rectangle_border_square"
+                android:text="AG-001"
                 android:paddingLeft="5dp"
                 android:singleLine="true" />
 
@@ -87,61 +87,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="Agent Name"
                 android:inputType="textCapSentences"
-                android:textColor="#000000"
+                android:textColor="#213e9a"
                 android:textSize="15dp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/agent_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/rectangle_border_square"
                 android:inputType="textCapSentences"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
                 android:paddingLeft="5dp"
+                android:text="Dinesh"
                 android:singleLine="true" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="Agent Status"
-                android:textColor="#000000"
+                android:textColor="#213e9a"
                 android:textSize="15dp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/agent_status"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/rectangle_border_square"
                 android:inputType="textCapSentences"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
                 android:paddingLeft="5dp"
+                android:text="Active"
                 android:singleLine="true" />
 
-            <Button
-                android:id="@+id/submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="230dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="230dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/blue_btn_bg_color"
-                android:text="Submit"
-                android:textColor="#ffffff"
-                android:textSize="15dp" />
 
         </LinearLayout>
 

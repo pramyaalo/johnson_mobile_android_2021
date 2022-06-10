@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Project/johnson/johnsontap-8.6.22/johnson_mobile_android_2021-main11/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_daily_collection_details.xml" value="0.2" />
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/drawable/arrow_drop_down.xml" value="0.165" />
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/drawable/background.xml" value="0.165" />
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/drawable/background1.xml" value="0.165" />
@@ -68,6 +69,22 @@
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/layout/ttgs_pop_layout_item.xml" value="0.1" />
         <entry key="..\:/Android Project/johnsonapp_2022-main_update/johnsonapp_2022-main/app/src/main/res/layout/activity_general_form.xml" value="0.17074275362318841" />
         <entry key="..\:/Android Project/johnsonapp_2022-main_update/johnsonapp_2022-main/app/src/main/res/layout/activity_login.xml" value="0.17074275362318841" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/drawable/background1.xml" value="0.1935" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_agent_profile.xml" value="0.15760869565217392" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_customer_details.xml" value="0.14947916666666666" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_daily_collection_details.xml" value="0.25" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_dashbaord_main.xml" value="0.17481884057971014" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_input_value_form_list.xml" value="0.25" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_job_details.xml" value="0.16893115942028986" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_job_status.xml" value="0.16893115942028986" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_main2.xml" value="0.16893115942028986" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_paused_services.xml" value="0.15443840579710144" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_preventive_service.xml" value="0.15443840579710144" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/adapter_fieldlist.xml" value="0.17481884057971014" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/adapter_liftinputlist.xml" value="0.16893115942028986" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/alert_pettype_layout.xml" value="0.33138969873663754" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/dialog_logout.xml" value="0.22" />
+        <entry key="..\:/Revathi/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/services_item2.xml" value="0.16893115942028986" />
         <entry key="..\:/vini/smart_johnson_vini_2022/app/src/main/res/drawable/blue_button_background.xml" value="0.2025" />
         <entry key="..\:/vini/smart_johnson_vini_2022/app/src/main/res/drawable/child_back_ground.xml" value="0.2025" />
         <entry key="..\:/vini/smart_johnson_vini_2022/app/src/main/res/drawable/cmrl_login_background.xml" value="0.2025" />
