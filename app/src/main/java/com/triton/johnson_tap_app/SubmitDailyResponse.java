@@ -1,5 +1,8 @@
 package com.triton.johnson_tap_app;
 
+import com.triton.johnson_tap_app.data.form3submit.JobDetail;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SubmitDailyResponse {
@@ -90,7 +93,7 @@ public class SubmitDailyResponse {
         private String total;
         private String remarks;
         private String created_by;
-        private List<Job_detailsBean> job_details;
+        private List<JobDetail> jobDetails;
 
         public String getCollection_type() {
             return collection_type;
@@ -245,16 +248,16 @@ public class SubmitDailyResponse {
             this.created_by = created_by;
         }
 
-        public List<Job_detailsBean> getJob_details() {
-            return job_details;
+        public List<JobDetail> getJobDetails() {
+            return jobDetails;
         }
 
-        public void setJob_details(List<Job_detailsBean> job_details) {
-            this.job_details = job_details;
-
+        public void setJobDetails(List<JobDetail> jobDetails) {
+            this.jobDetails = jobDetails;
         }
 
-        public static class Job_detailsBean  {
+
+        public static class JobDetail  {
             /**
              * s_no : 1
              * job_no : L-0011

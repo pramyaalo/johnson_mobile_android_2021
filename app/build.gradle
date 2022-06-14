@@ -72,12 +72,10 @@ dependencies {
     /*Digital signature*/
     implementation 'com.github.gcacace:signature-pad:1.2.1'
 
-
     // This library is used for crop image feature
     implementation 'com.github.CanHub:Android-Image-Cropper:3.1.1'
     implementation 'com.github.tntkhang:full-screen-image-view-library:1.1.0'
     implementation 'org.jetbrains:annotations:16.0.1'
-
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 }

@@ -66,7 +66,7 @@ public class JobnoFindResponse {
 
         private String JOBNO;
         private String CUSNAME;
-
+        private String CONTNO;
 
         public String getJOBNO() {
             return JOBNO;
@@ -83,6 +83,15 @@ public class JobnoFindResponse {
 
         public void setCUSNAME(String CUSNAME) {
             this.CUSNAME = CUSNAME;
+
+        }
+
+        public String getCONTNO() {
+            return CONTNO;
+        }
+
+        public void setCONTNO(String CONTNO) {
+            this.CONTNO = CONTNO;
 
         }
 

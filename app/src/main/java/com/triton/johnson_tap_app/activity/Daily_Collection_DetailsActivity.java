@@ -18,6 +18,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -48,6 +50,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.canhub.cropper.CropImage;
 import com.google.gson.Gson;
 import com.triton.johnson_tap_app.DrawableClickListener;
 import com.triton.johnson_tap_app.JobFindListAdapter;
@@ -73,6 +76,9 @@ import com.triton.johnson_tap_app.SubmitDailyRequest;
 import com.triton.johnson_tap_app.SubmitDailyResponse;
 import com.triton.johnson_tap_app.api.APIInterface;
 import com.triton.johnson_tap_app.api.RetrofitClient;
+import com.triton.johnson_tap_app.data.form3submit.Form3SubmitIP;
+import com.triton.johnson_tap_app.data.form3submit.JobDetail;
+import com.triton.johnson_tap_app.data.form3submit.UploadedFile;
 import com.triton.johnson_tap_app.responsepojo.FileUploadResponse;
 import com.triton.johnson_tap_app.utils.FileUtil;
 
@@ -91,6 +97,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -110,14 +117,14 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     EditText date, chq_date, chq_no, rtgs_no, chq_amt, bank_name, utr_no, pay_amt, pay_amt1, pay_amt2, pay_amt3, pay_amt4, pay_amt5, pay_amt6, pay_amt7, pay_amt8, pay_amt9, pay_amt_total, agent_code, tds_it, tds_gst, remark;
     EditText job_no, job_no1, job_no2, job_no3, job_no4, job_no5, job_no6, job_no7, job_no8, job_no9, edt_other, edt_other1, contact_no, contact_no1, contact_no2, contact_no3, contact_no4, contact_no5, contact_no6, contact_no7, contact_no8, contact_no9;
     DatePickerDialog datepicker;
-    String s_cust_name,s_cust_name1,s_cust_name2,s_cust_name3,s_cust_name4,s_cust_name5,s_cust_name6,s_cust_name7,s_cust_name8,s_cust_name9;
+    String s_cust_name,s_cust_name1,s_cust_name2,s_cust_name3,s_cust_name4,s_cust_name5,s_cust_name6,s_cust_name7,s_cust_name8,s_cust_name9, s_cont_no,s_cont_no1,s_cont_no2,s_cont_no3,s_cont_no4,s_cont_no5,s_cont_no6,s_cont_no7,s_cont_no8,s_cont_no9;
     static Long fromDate;
     RadioGroup rg, rg1;
     RadioButton rb_chq, rb_rtgs, rb_yes, rb_no;
     LinearLayout lin_chq_no, lin_rtgs_no, lin_chq_amt, lin_utr_no, lin_chq_date;
     List<PetAppointmentCreateRequest.PetImgBean> pet_imgList = new ArrayList();
     ArrayList<PetAppointment> PetAppointmentCreateRequestList = new ArrayList<>();
-    private List<SubmitDailyResponse.DataBean.Job_detailsBean> JobDetailsBeanList;
+    private List<SubmitDailyResponse.DataBean.JobDetail> JobDetailsBeanList;
     private List<JobnoFindResponse.DataBean> breedTypedataBeanList;
     JobFindListAdapter petBreedTypesListAdapter;
     JobFindListAdapter1 petBreedTypesListAdapter1;
@@ -2393,102 +2400,95 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 str_to_date9 = t_date9.getText().toString();
                 Pay_Total = pay_amt_total.getText().toString();
 
+             //   locationAddResponseCall();
+
                 Log.d("button", Collection_type + "," + Agent_code + "," + Cheq_no + "," + Rtgs_no + "," + Cheq_date + "," + Cheq_amount + "," + Bank_name + "," + Ded_it + "," + Ded_gst + "," + Remarks + "," + Ded_other_one_type + "," + Ded_other_two_type + "," + Ded_other_one_value + "," +  Ded_other_two_value + "," + Third_party_chq + "," + Pay_Total);
 
-                Toast.makeText(getApplicationContext(),"button :    " + "\n" + Collection_type + "," + Agent_code + "," + Cheq_no + "," + Rtgs_no + "," + Cheq_date + "," + Cheq_amount + "," + Bank_name + "," + Ded_it + "," + Ded_gst + "," + Remarks + "," + Ded_other_one_type + "," + Ded_other_two_type + "," + Ded_other_one_value + "," +  Ded_other_two_value + "," + Third_party_chq + "," + Pay_Total,Toast.LENGTH_LONG).show();
+                if (rb_chq.isChecked()) {
 
-                locationAddResponseCall();
-//                if (rb_chq.isChecked()) {
-//
-//                    if (Current_date.equals("") || Agent_code.equals("") || Cheq_date.equals("") || Cheq_no.equals("") || Cheq_amount.equals("") ||Bank_name.equals("") || Ded_it.equals("") || Ded_gst.equals("")){
-//
-//                        alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
-//
-//                                .setMessage("Please Fill the All Values")
-//                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    if (Current_date.equals("") || Agent_code.equals("") || Cheq_date.equals("") || Cheq_no.equals("") || Cheq_amount.equals("") ||Bank_name.equals("") || Ded_it.equals("") || Ded_gst.equals("")){
+
+                        alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
+
+                                .setMessage("Please Fill the All Values")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        alertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                    else{
+
+                        n_chq_amt = Float.parseFloat(Cheq_amount);
+                        n_tds_it = Float.parseFloat(Ded_it);
+                        n_tds_gst = Float.parseFloat(Ded_gst);
+                        n_other_value = Float.parseFloat(Ded_other_one_value);
+                        n_other_value1 = Float.parseFloat(Ded_other_two_value);
+                        n_sum = n_chq_amt + n_tds_it + n_tds_gst + n_other_value + n_other_value1;
+                        tot_sum = Float.valueOf(pay_amt_total.getText().toString());
+
+                        if (!tot_sum.equals(n_sum)) {
+                          alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
+
+                                    .setMessage("Value Not Match")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                           alertDialog.dismiss();
+                                        }
+                                    })
+//                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
 //                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        alertDialog.dismiss();
+//                                        Toast.makeText(getApplicationContext(),"Nothing Happened",Toast.LENGTH_LONG).show();
 //                                    }
 //                                })
-//                                .show();
-//                    }
-//                    else{
-//
-//                        n_chq_amt = Float.parseFloat(Cheq_amount);
-//                        n_tds_it = Float.parseFloat(Ded_it);
-//                        n_tds_gst = Float.parseFloat(Ded_gst);
-//                        n_other_value = Float.parseFloat(Ded_other_one_value);
-//                        n_other_value1 = Float.parseFloat(Ded_other_two_value);
-//                        n_sum = n_chq_amt + n_tds_it + n_tds_gst + n_other_value + n_other_value1;
-//                        tot_sum = Float.valueOf(pay_amt_total.getText().toString());
-//
-//                        if (!tot_sum.equals(n_sum)) {
-//                          alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
-//
-//                                    .setMessage("Value Not Match")
-//                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                           alertDialog.dismiss();
-//                                        }
-//                                    })
-////                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-////                                    public void onClick(DialogInterface dialogInterface, int i) {
-////                                        Toast.makeText(getApplicationContext(),"Nothing Happened",Toast.LENGTH_LONG).show();
-////                                    }
-////                                })
-//                                    .show();
-//                        } else {
-//
-//                        }
-//
-//                    }
-//
-//                } else {
+                                    .show();
+                        } else {
 
-//                    if (Current_date.equals("") || Agent_code.equals("") || Rtgs_no.equals("") || Bank_name.equals("") || UTR_No.equals("") || Ded_it.equals("") || Ded_gst.equals("")){
-//
-//                        alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
-//
-//                                .setMessage("Please Fill the All Values")
-//                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        alertDialog.dismiss();
-//                                    }
-//                                })
-//                                .show();
-//                    }
-//                    else {
-//                        n_chq_amt = Float.parseFloat(Cheq_amount);
-//                        n_tds_it = Float.parseFloat(Ded_it);
-//                        n_tds_gst = Float.parseFloat(Ded_gst);
-//                        n_other_value = Float.parseFloat(Ded_other_one_value);
-//                        n_other_value1 = Float.parseFloat(Ded_other_two_value);
-//                        n_sum = n_chq_amt + n_tds_it + n_tds_gst + n_other_value + n_other_value1;
-//                        tot_sum = Float.valueOf(pay_amt_total.getText().toString());
-//
-//                        if (!tot_sum.equals(n_sum)) {
-//                            AlertDialog alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
-//
-//                                    .setMessage("Value Not Match")
-//                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                            finish();
-//                                        }
-//                                    })
-////                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-////                                    public void onClick(DialogInterface dialogInterface, int i) {
-////                                        Toast.makeText(getApplicationContext(),"Nothing Happened",Toast.LENGTH_LONG).show();
-////                                    }
-////                                })
-//                                    .show();
-//                        } else {
-//
-//                        }
-//
-//                    }
-//                }
+                            locationAddResponseCall();
+                        }
 
+                    }
 
+                } else {
+
+                    if (Current_date.equals("") || Agent_code.equals("") || Rtgs_no.equals("") || Bank_name.equals("") || UTR_No.equals("") || Ded_it.equals("") || Ded_gst.equals("")){
+
+                        alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
+
+                                .setMessage("Please Fill the All Values")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        alertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                    else {
+                        n_chq_amt = Float.parseFloat(Cheq_amount);
+                        n_tds_it = Float.parseFloat(Ded_it);
+                        n_tds_gst = Float.parseFloat(Ded_gst);
+                        n_other_value = Float.parseFloat(Ded_other_one_value);
+                        n_other_value1 = Float.parseFloat(Ded_other_two_value);
+                        n_sum = n_chq_amt + n_tds_it + n_tds_gst + n_other_value + n_other_value1;
+                        tot_sum = Float.valueOf(pay_amt_total.getText().toString());
+
+                        if (!tot_sum.equals(n_sum)) {
+                           alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
+
+                                    .setMessage("Value Not Match")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            alertDialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            locationAddResponseCall();
+                        }
+
+                    }
+                }
 
             }
         });
@@ -2497,11 +2497,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             utr_no.setFocusable(false);
             utr_no.setClickable(false);
             utr_no.setCursorVisible(false);
+            utr_no.setText("");
             utr_no.setFocusableInTouchMode(false);
             rtgs_no.setFocusable(false);
             rtgs_no.setClickable(false);
             rtgs_no.setCursorVisible(false);
             rtgs_no.setFocusableInTouchMode(false);
+            rtgs_no.setText("");
             chq_no.setFocusable(true);
             chq_no.setClickable(true);
             chq_no.setCursorVisible(true);
@@ -2514,6 +2516,7 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             chq_amt.setClickable(true);
             chq_amt.setCursorVisible(true);
             chq_amt.setFocusableInTouchMode(true);
+
             Spannable name_URT_no = new SpannableString("UTR number : ");
             name_URT_no.setSpan(new ForegroundColorSpan(Color.LTGRAY), 0, name_URT_no.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             name_urt.setText(name_URT_no);
@@ -2556,14 +2559,17 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             chq_no.setClickable(false);
             chq_no.setCursorVisible(false);
             chq_no.setFocusableInTouchMode(false);
+            chq_no.setText("");
             chq_date.setFocusable(false);
             chq_date.setClickable(false);
             chq_date.setCursorVisible(false);
             chq_date.setFocusableInTouchMode(false);
+            chq_date.setText("");
             chq_amt.setFocusable(false);
             chq_amt.setClickable(false);
             chq_amt.setCursorVisible(false);
             chq_amt.setFocusableInTouchMode(false);
+            chq_amt.setText("");
             utr_no.setFocusable(true);
             utr_no.setClickable(true);
             utr_no.setCursorVisible(true);
@@ -2614,6 +2620,21 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (rb_chq.isChecked()) {
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
+                    alertDialogBuilder.setMessage("Allow");
+                    alertDialogBuilder.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface arg0, int arg1) {
+
+                                    utr_no.setText("");
+                                    rtgs_no.setText("");
+                                }
+                            });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
                     Collection_type = "Chq";
                     utr_no.setFocusable(false);
                     utr_no.setClickable(false);
@@ -2672,6 +2693,23 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
 
                 } else {
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
+                            alertDialogBuilder.setMessage("Allow");
+                            alertDialogBuilder.setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface arg0, int arg1) {
+
+                                            chq_no.setText("");
+                                            chq_date.setText("");
+                                            chq_amt.setText("");
+                                        }
+                                    });
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+
+
                     Collection_type = "RTGS";
                     chq_no.setFocusable(false);
                     chq_no.setClickable(false);
@@ -2932,10 +2970,18 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         });
 
         t_date.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date) {
+            @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
             public boolean onDrawableClick() {
                 t_date.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+
+                if(f_date.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+
+                    DialogFragment newFragment = new ToDatePickerFragment();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2943,8 +2989,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date1.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date1) {
             public boolean onDrawableClick() {
                 t_date1.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment1();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date1.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment1();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2952,8 +3003,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date2.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date2) {
             public boolean onDrawableClick() {
                 t_date2.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment2();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date2.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment2();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2961,8 +3017,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date3.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date3) {
             public boolean onDrawableClick() {
                 t_date3.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment3();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date3.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment3();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2970,8 +3031,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date4.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date4) {
             public boolean onDrawableClick() {
                 t_date4.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment4();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date4.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment4();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2979,8 +3045,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date5.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date5) {
             public boolean onDrawableClick() {
                 t_date5.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment5();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date5.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment5();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2988,8 +3059,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date6.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date6) {
             public boolean onDrawableClick() {
                 t_date6.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment6();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date6.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment6();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -2997,8 +3073,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date7.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date7) {
             public boolean onDrawableClick() {
                 t_date7.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment7();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date7.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment7();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -3006,8 +3087,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date8.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date8) {
             public boolean onDrawableClick() {
                 t_date8.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment8();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date8.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment8();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -3015,8 +3101,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         t_date9.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(t_date9) {
             public boolean onDrawableClick() {
                 t_date9.setCursorVisible(false);
-                DialogFragment newFragment = new ToDatePickerFragment9();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                if(f_date9.getText().toString().equals("")){
+                    Toast.makeText(Daily_Collection_DetailsActivity.this,"Please Selected From Date" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    DialogFragment newFragment = new ToDatePickerFragment9();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                }
                 return true;
             }
         });
@@ -3525,53 +3616,56 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             Toasty.warning(getApplicationContext(), "Sorry you can't Add more than 4", Toast.LENGTH_SHORT).show();
 
         } else {
-            if (!hasPermissions(this, PERMISSIONS)) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_CLINIC);
-            } else {
+            final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+            //AlertDialog.Builder alert=new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
+            builder.setTitle("Choose option");
+            builder.setCancelable(false);
 
-                final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
-                //AlertDialog.Builder alert=new AlertDialog.Builder(this);
-                androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
-                builder.setTitle("Choose option");
-                builder.setItems(items, (dialog, item) -> {
-                    if (items[item].equals("Take Photo")) {
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(Daily_Collection_DetailsActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            builder.setItems(items, (dialog, item) -> {
+                if (items[item].equals("Take Photo"))
+                {
+                    if (ContextCompat.checkSelfPermission(Daily_Collection_DetailsActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                    {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CLINIC_CAMERA_PERMISSION_CODE);
-                        } else {
-
-
-                            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-                            startActivityForResult(intent, SELECT_CLINIC_CAMERA);
                         }
-
-                    } else if (items[item].equals("Choose from Library")) {
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(Daily_Collection_DetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_CLINIC_PIC_PERMISSION);
-                        } else {
-
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_CLINIC_PICTURE);
-
-
-                        }
-                    } else if (items[item].equals("Cancel")) {
-                        dialog.dismiss();
                     }
-                });
-                builder.show();
-            }
+                    else
+                    {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, SELECT_CLINIC_CAMERA);
+                    }
 
-//            if (!hasPermissions(this, PERMISSIONS)) {
-//                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_CLINIC);
-//            } else {
-//
-//                CropImage.activity().start(Daily_Collection_DetailsActivity.this);
-//            }
+                }
+
+                else if (items[item].equals("Choose from Library"))
+                {
+
+                    if (ContextCompat.checkSelfPermission(Daily_Collection_DetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_CLINIC_PIC_PERMISSION);
+                        }
+                    }
+
+                    else{
+
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_CLINIC_PICTURE);
+
+
+                    }
+                }
+
+                else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
 
         }
 
@@ -3591,11 +3685,14 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
         //	Toast.makeText(getActivity(),"kk",Toast.LENGTH_SHORT).show();
-        if (requestCode == SELECT_CLINIC_PICTURE || requestCode == SELECT_CLINIC_CAMERA) {
+        if(requestCode== SELECT_CLINIC_PICTURE || requestCode == SELECT_CLINIC_CAMERA)
+        {
 
-            if (requestCode == SELECT_CLINIC_CAMERA) {
-
+            if(requestCode == SELECT_CLINIC_CAMERA)
+            {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
                 File file = new File(getFilesDir(), "Healthz1" + ".jpg");
@@ -3609,18 +3706,23 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 } catch (Exception e) {
                     Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
                 }
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+                String currentDateandTime = sdf.format(new Date());
 
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image*/"), file);
 
-                filePart = MultipartBody.Part.createFormData("sampleFile", userid+file.getName().trim(), requestFile);
+                filePart = MultipartBody.Part.createFormData("sampleFile",  userid+currentDateandTime+file.getName(), requestFile);
 
                 uploadPetImage();
 
+            }
 
-            } else {
+            else{
 
                 try {
-                    if (resultCode == Activity.RESULT_OK) {
+
+                    if (resultCode == Activity.RESULT_OK)
+                    {
 
                         Log.w("VALUEEEEEEE1111", " " + data);
 
@@ -3632,7 +3734,7 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
                         Log.w("filename", " " + filename);
 
-                        String filePath = FileUtil.getPath(Daily_Collection_DetailsActivity.this, selectedImageUri);
+                        String filePath = FileUtil.getPath(Daily_Collection_DetailsActivity.this,selectedImageUri);
 
                         assert filePath != null;
 
@@ -3641,9 +3743,20 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                         long length = file.length() / 1024; // Size in KB
 
                         Log.w("filesize", " " + length);
-                        filePart = MultipartBody.Part.createFormData("sampleFile", "Sample"+file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+
+                        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+                        String currentDateandTime = sdf.format(new Date());
+
+                        filePart = MultipartBody.Part.createFormData("sampleFile", userid+currentDateandTime+file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+
                         uploadPetImage();
 
+
+                    }
+
+                    else if(resultCode == RESULT_CANCELED)
+                    {
+                        finish();
 
                     }
                 } catch (Exception e) {
@@ -3654,10 +3767,9 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             }
 
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
-
     }
+
+
 
     public void onBackPressed() {
         super.onBackPressed();
@@ -3667,10 +3779,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     }
 
     @SuppressLint("LongLogTag")
+
     private void uploadPetImage() {
 
-
         APIInterface apiInterface = RetrofitClient.getImageClient().create(APIInterface.class);
+
 
         Call<FileUploadResponse> call = apiInterface.getImageStroeResponse(filePart);
 
@@ -3678,13 +3791,15 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         Log.w(TAG, "url  :%s" + call.request().url().toString());
 
         call.enqueue(new Callback<FileUploadResponse>() {
+            @SuppressLint("LogNotTimber")
             @Override
             public void onResponse(@NonNull Call<FileUploadResponse> call, @NonNull Response<FileUploadResponse> response) {
-                Log.w(TAG, "Profpic" + "--->" + new Gson().toJson(response.body()));
-
                 if (response.body() != null) {
                     if (200 == response.body().getCode()) {
-                        //     DocBusInfoUploadRequest.ClinicPicBean clinicPicBean = new DocBusInfoUploadRequest.ClinicPicBean(response.body().getData().trim());
+                        Log.w(TAG, "Profpic" + "--->" + new Gson().toJson(response.body()));
+
+                   /*     DocBusInfoUploadRequest.ClinicPicBean clinicPicBean = new DocBusInfoUploadRequest.ClinicPicBean(response.body().getData().trim());
+                        clinicPicBeans.add(clinicPicBean);*/
                         uploadimagepath = response.body().getData();
                         PetAppointmentCreateRequest.PetImgBean petImgBean = new PetAppointmentCreateRequest.PetImgBean();
                         petImgBean.setPet_img(uploadimagepath);
@@ -3701,6 +3816,7 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
             }
 
+            @SuppressLint("LogNotTimber")
             @Override
             public void onFailure(@NonNull Call<FileUploadResponse> call, @NonNull Throwable t) {
                 // avi_indicator.smoothToHide();
@@ -3720,7 +3836,6 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         PetCurrentImageListAdapter petCurrentImageListAdapter = new PetCurrentImageListAdapter(getApplicationContext(), pet_imgList);
         rv_upload_pet_images.setAdapter(petCurrentImageListAdapter);
     }
-
 
     @SuppressLint("Range")
 
@@ -3784,172 +3899,379 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            s_cust_name = intent.getStringExtra("cust_name");
-            s_cust_name1 = intent.getStringExtra("cust1");
-            cust_name.setText(s_cust_name);
-            Toast.makeText(Daily_Collection_DetailsActivity.this, s_cust_name + "\n" + s_cust_name1, Toast.LENGTH_SHORT).show();
+
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else
+            {
+                s_cust_name = intent.getStringExtra("cust_name");
+                s_cont_no = intent.getStringExtra("cont_no");
+                s_cust_name1 = intent.getStringExtra("cust1");
+                s_cont_no1 = intent.getStringExtra("cont_no1");
+                cust_name.setText(s_cust_name);
+                contact_no.setText(s_cont_no);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = intent.getStringExtra("cust1");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+                s_cust_name = cust_name.getText().toString();
+                s_cont_no = contact_no.getText().toString();
+                s_cust_name1 = intent.getStringExtra("cust1");
+                s_cont_no = intent.getStringExtra("cont_no1");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver2 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = intent.getStringExtra("cust2");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = intent.getStringExtra("cust2");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = intent.getStringExtra("cont_no2");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver3 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = intent.getStringExtra("cust3");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = intent.getStringExtra("cust3");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = contact_no2.getText().toString();
+                s_cont_no3 = intent.getStringExtra("cont_no3");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver4 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = cust_name3.getText().toString();
-            s_cust_name4 = intent.getStringExtra("cust4");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
-            cust_name4.setText(s_cust_name4);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = cust_name3.getText().toString();
+                s_cust_name4 = intent.getStringExtra("cust4");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = contact_no2.getText().toString();
+                s_cont_no3 = contact_no3.getText().toString();
+                s_cont_no4 = intent.getStringExtra("cont_no4");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                cust_name4.setText(s_cust_name4);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+                contact_no4.setText(s_cont_no4);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver5 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = cust_name3.getText().toString();
-            s_cust_name4 = cust_name4.getText().toString();
-            s_cust_name5 = intent.getStringExtra("cust5");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
-            cust_name4.setText(s_cust_name4);
-            cust_name5.setText(s_cust_name5);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = cust_name3.getText().toString();
+                s_cust_name4 = cust_name4.getText().toString();
+                s_cust_name5 = intent.getStringExtra("cust5");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = contact_no2.getText().toString();
+                s_cont_no3 = contact_no3.getText().toString();
+                s_cont_no4 = contact_no4.getText().toString();
+                s_cont_no5 = intent.getStringExtra("cont_no5");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                cust_name4.setText(s_cust_name4);
+                cust_name5.setText(s_cust_name5);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+                contact_no4.setText(s_cont_no4);
+                contact_no5.setText(s_cont_no5);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver6 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = cust_name3.getText().toString();
-            s_cust_name4 = cust_name4.getText().toString();
-            s_cust_name5 = cust_name5.getText().toString();
-            s_cust_name6 = intent.getStringExtra("cust6");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
-            cust_name4.setText(s_cust_name4);
-            cust_name5.setText(s_cust_name5);
-            cust_name6.setText(s_cust_name6);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = cust_name3.getText().toString();
+                s_cust_name4 = cust_name4.getText().toString();
+                s_cust_name5 = cust_name5.getText().toString();
+                s_cust_name6 = intent.getStringExtra("cust6");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = contact_no2.getText().toString();
+                s_cont_no3 = contact_no3.getText().toString();
+                s_cont_no4 = contact_no4.getText().toString();
+                s_cont_no5 = contact_no5.getText().toString();
+                s_cont_no6 = intent.getStringExtra("cont_no6");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                cust_name4.setText(s_cust_name4);
+                cust_name5.setText(s_cust_name5);
+                cust_name6.setText(s_cust_name6);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+                contact_no4.setText(s_cont_no4);
+                contact_no5.setText(s_cont_no5);
+                contact_no6.setText(s_cont_no6);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver7 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = cust_name3.getText().toString();
-            s_cust_name4 = cust_name4.getText().toString();
-            s_cust_name5 = cust_name5.getText().toString();
-            s_cust_name6 = cust_name6.getText().toString();
-            s_cust_name7 = intent.getStringExtra("cust7");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
-            cust_name4.setText(s_cust_name4);
-            cust_name5.setText(s_cust_name5);
-            cust_name6.setText(s_cust_name6);
-            cust_name7.setText(s_cust_name7);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = cust_name3.getText().toString();
+                s_cust_name4 = cust_name4.getText().toString();
+                s_cust_name5 = cust_name5.getText().toString();
+                s_cust_name6 = cust_name6.getText().toString();
+                s_cust_name7 = intent.getStringExtra("cust7");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = contact_no2.getText().toString();
+                s_cont_no3 = contact_no3.getText().toString();
+                s_cont_no4 = contact_no4.getText().toString();
+                s_cont_no5 = contact_no5.getText().toString();
+                s_cont_no6 = contact_no6.getText().toString();
+                s_cont_no7 = intent.getStringExtra("cont_no7");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                cust_name4.setText(s_cust_name4);
+                cust_name5.setText(s_cust_name5);
+                cust_name6.setText(s_cust_name6);
+                cust_name7.setText(s_cust_name7);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+                contact_no4.setText(s_cont_no4);
+                contact_no5.setText(s_cont_no5);
+                contact_no6.setText(s_cont_no6);
+                contact_no7.setText(s_cont_no7);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver8 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = cust_name3.getText().toString();
-            s_cust_name4 = cust_name4.getText().toString();
-            s_cust_name5 = cust_name5.getText().toString();
-            s_cust_name6 = cust_name6.getText().toString();
-            s_cust_name7 = cust_name6.getText().toString();
-            s_cust_name8 = intent.getStringExtra("cust8");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
-            cust_name4.setText(s_cust_name4);
-            cust_name5.setText(s_cust_name5);
-            cust_name6.setText(s_cust_name6);
-            cust_name7.setText(s_cust_name7);
-            cust_name8.setText(s_cust_name8);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = cust_name3.getText().toString();
+                s_cust_name4 = cust_name4.getText().toString();
+                s_cust_name5 = cust_name5.getText().toString();
+                s_cust_name6 = cust_name6.getText().toString();
+                s_cust_name7 = cust_name7.getText().toString();
+                s_cust_name8 = intent.getStringExtra("cust8");
+                s_cust_name = contact_no.getText().toString();
+                s_cust_name1 = contact_no1.getText().toString();
+                s_cust_name2 = contact_no2.getText().toString();
+                s_cust_name3 = contact_no3.getText().toString();
+                s_cust_name4 = contact_no4.getText().toString();
+                s_cust_name5 = contact_no5.getText().toString();
+                s_cust_name6 = contact_no6.getText().toString();
+                s_cust_name7 = contact_no7.getText().toString();
+                s_cust_name8 = intent.getStringExtra("cont_no8");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                cust_name4.setText(s_cust_name4);
+                cust_name5.setText(s_cust_name5);
+                cust_name6.setText(s_cust_name6);
+                cust_name7.setText(s_cust_name7);
+                cust_name8.setText(s_cust_name8);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+                contact_no4.setText(s_cont_no4);
+                contact_no5.setText(s_cont_no5);
+                contact_no6.setText(s_cont_no6);
+                contact_no7.setText(s_cont_no7);
+                contact_no8.setText(s_cont_no8);
+            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver9 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            s_cust_name = cust_name.getText().toString();
-            s_cust_name1 = cust_name1.getText().toString();
-            s_cust_name2 = cust_name2.getText().toString();
-            s_cust_name3 = cust_name3.getText().toString();
-            s_cust_name4 = cust_name4.getText().toString();
-            s_cust_name5 = cust_name5.getText().toString();
-            s_cust_name6 = cust_name6.getText().toString();
-            s_cust_name7 = cust_name6.getText().toString();
-            s_cust_name8 = cust_name6.getText().toString();
-            s_cust_name9 = intent.getStringExtra("cust9");
-            cust_name.setText(s_cust_name);
-            cust_name1.setText(s_cust_name1);
-            cust_name2.setText(s_cust_name2);
-            cust_name3.setText(s_cust_name3);
-            cust_name4.setText(s_cust_name4);
-            cust_name5.setText(s_cust_name5);
-            cust_name6.setText(s_cust_name6);
-            cust_name7.setText(s_cust_name7);
-            cust_name8.setText(s_cust_name8);
-            cust_name9.setText(s_cust_name9);
+            String str_value = job_no.getText().toString();
+
+            if(str_value.equals("")) {
+
+                cust_name.setText("Not Found");
+                contact_no.setText("Not Found");
+            }
+            else {
+
+                s_cust_name = cust_name.getText().toString();
+                s_cust_name1 = cust_name1.getText().toString();
+                s_cust_name2 = cust_name2.getText().toString();
+                s_cust_name3 = cust_name3.getText().toString();
+                s_cust_name4 = cust_name4.getText().toString();
+                s_cust_name5 = cust_name5.getText().toString();
+                s_cust_name6 = cust_name6.getText().toString();
+                s_cust_name7 = cust_name7.getText().toString();
+                s_cust_name8 = cust_name8.getText().toString();
+                s_cust_name9 = intent.getStringExtra("cust9");
+                s_cont_no = contact_no.getText().toString();
+                s_cont_no1 = contact_no1.getText().toString();
+                s_cont_no2 = contact_no2.getText().toString();
+                s_cont_no3 = contact_no3.getText().toString();
+                s_cont_no4 = contact_no4.getText().toString();
+                s_cont_no5 = contact_no5.getText().toString();
+                s_cont_no6 = contact_no6.getText().toString();
+                s_cont_no7 = contact_no7.getText().toString();
+                s_cont_no8 = contact_no8.getText().toString();
+                s_cont_no9 = intent.getStringExtra("cont_no9");
+                cust_name.setText(s_cust_name);
+                cust_name1.setText(s_cust_name1);
+                cust_name2.setText(s_cust_name2);
+                cust_name3.setText(s_cust_name3);
+                cust_name4.setText(s_cust_name4);
+                cust_name5.setText(s_cust_name5);
+                cust_name6.setText(s_cust_name6);
+                cust_name7.setText(s_cust_name7);
+                cust_name8.setText(s_cust_name8);
+                cust_name9.setText(s_cust_name9);
+                contact_no.setText(s_cont_no);
+                contact_no1.setText(s_cont_no1);
+                contact_no2.setText(s_cont_no2);
+                contact_no3.setText(s_cont_no3);
+                contact_no4.setText(s_cont_no4);
+                contact_no5.setText(s_cont_no5);
+                contact_no6.setText(s_cont_no6);
+                contact_no7.setText(s_cont_no7);
+                contact_no8.setText(s_cont_no8);
+                contact_no9.setText(s_cont_no9);
+            }
         }
     };
 
@@ -4183,18 +4505,19 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            String getfromdate = f_date.getText().toString().trim();
-            String getfrom[] = getfromdate.split("/");
-            int year, month, day;
-            year = Integer.parseInt(getfrom[2]);
-            month = Integer.parseInt(getfrom[1]);
-            day = Integer.parseInt(getfrom[0]);
-            final Calendar c = Calendar.getInstance();
-            c.set(year, month, day + 1);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
-            return datePickerDialog;
-        }
+
+                String getfromdate = f_date.getText().toString().trim();
+                String getfrom[] = getfromdate.split("/");
+                int year, month, day;
+                year = Integer.parseInt(getfrom[2]);
+                month = Integer.parseInt(getfrom[1]);
+                day = Integer.parseInt(getfrom[0]);
+                final Calendar c = Calendar.getInstance();
+                c.set(year, month, day + 1);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+                return datePickerDialog;
+            }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
@@ -4420,23 +4743,23 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             public void onResponse(@NotNull Call<SubmitDailyResponse> call, @NotNull Response<SubmitDailyResponse> response) {
 
                 Log.w(TAG, "AddLocationResponse" + new Gson().toJson(response.body()));
-
+                Log.w(TAG,"url  :%s"+" "+ call.request().url().toString());
 
                 if (response.body() != null) {
 
                     if(response.body().getCode() == 200){
                         Log.w(TAG,"url  :%s"+" "+ call.request().url().toString());
 
-                        Log.w(TAG,"dddd %s"+" "+ response.body().getData().getJob_details());
+                        Log.w(TAG,"dddd %s"+" "+ response.body().getData().getJobDetails());
 
-                        Toast.makeText(getApplicationContext(),"dddd %s :    " + response.body().getData().getJob_details() ,Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getApplicationContext(),"dddd %s :    " + response.body().getData().getJobDetails()  + "\n" + call.request().url().toString() + "\n" + new Gson().toJson(response.body()) ,Toast.LENGTH_LONG).show();
 
 
 //                        if (response.body().getData() != null && response.body().getData().getJob_details() != null) {
 //                            JobDetailsBeanList = response.body().getData().getJob_details();
 //                        }
 
-                       // Toasty.success(getApplicationContext(),"Address Newly Added Successfully", Toast.LENGTH_SHORT, true).show();
+                        Toasty.success(getApplicationContext(),"Submitted Successfully", Toast.LENGTH_SHORT, true).show();
 
 //                        Intent i = new Intent(AddMyAddressActivity.this, CustomerDashboardActivity.class);
 //                        startActivity(i);
@@ -4456,7 +4779,7 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         });
 
     }
-    private SubmitDailyRequest submitDailyRequest() {
+    private Form3SubmitIP submitDailyRequest() {
         /*
          * user_id : 5fb36ca169f71e30a0ffd3f7
          * location_state : asdfasdfasd
@@ -4474,26 +4797,148 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
        // Log.w(TAG,"AddLocationRequest--->"+"latitude"+latitude+" "+"longtitude :"+longtitude);
 
-        SubmitDailyRequest submitDailyRequest = new SubmitDailyRequest();
-        submitDailyRequest.setCollection_type(Collection_type);
-        submitDailyRequest.setCurrent_date(Current_date);
-        submitDailyRequest.setAgent_code(Agent_code);
-        submitDailyRequest.setCheq_no(Cheq_no);
-        submitDailyRequest.setRtgs_no(Rtgs_no);
-        submitDailyRequest.setCheq_amount(Cheq_amount);
-        submitDailyRequest.setCheq_date(Cheq_date);
-        submitDailyRequest.setBank_name(Bank_name);
-        submitDailyRequest.setIfsc_code(Ifsc_code);
-        submitDailyRequest.setThird_party_chq(Third_party_chq);
-        submitDailyRequest.setDed_it(Ded_it);
-        submitDailyRequest.setDed_gst(Ded_gst);
-        submitDailyRequest.setDed_other_one_type(Ded_other_one_type);
-        submitDailyRequest.setDed_other_one_value(Ded_other_one_value);
-        submitDailyRequest.setDed_other_two_type(Ded_other_two_type);
-        submitDailyRequest.setDed_other_two_value(Ded_other_two_value);
-        submitDailyRequest.setTotal(Pay_Total);
+        Form3SubmitIP submitDailyRequest = new Form3SubmitIP();
+        submitDailyRequest.setCollectionType(Collection_type);
+        submitDailyRequest.setCurrentDate(Current_date);
+        submitDailyRequest.setAgentCode(Agent_code);
+        submitDailyRequest.setCheqNo(Cheq_no);
+        submitDailyRequest.setRtgsNo(Rtgs_no);
+        submitDailyRequest.setCheqAmount(Integer.valueOf(Cheq_amount));
+        submitDailyRequest.setCheqDate(Cheq_date);
+        submitDailyRequest.setBankName(Bank_name);
+        submitDailyRequest.setIfscCode(Ifsc_code);
+        submitDailyRequest.setThirdPartyChq(Third_party_chq);
+        submitDailyRequest.setDedIt(Integer.valueOf(Ded_it));
+        submitDailyRequest.setDedGst(Integer.valueOf(Ded_gst));
+        submitDailyRequest.setDedOtherOneType(Ded_other_one_type);
+        submitDailyRequest.setDedOtherOneValue(Integer.valueOf(Ded_other_one_value));
+        submitDailyRequest.setDedOtherTwoType(Ded_other_two_type);
+        submitDailyRequest.setDedOtherTwoValue(Integer.valueOf(Ded_other_two_value));
+        submitDailyRequest.setTotal(Integer.valueOf(Pay_Total));
         submitDailyRequest.setRemarks(Remarks);
-        submitDailyRequest.setCreated_by("9874563210");
+        submitDailyRequest.setCreatedBy("9874563210");
+        List<UploadedFile> uploadedFile = new ArrayList<UploadedFile>();
+        for(int i=0; i<pet_imgList.size();i++){
+            UploadedFile t = new UploadedFile();
+            t.setImage(pet_imgList.get(i).getPet_img());
+            uploadedFile.add(t);
+        }
+        submitDailyRequest.setUploadedFile(uploadedFile);
+
+
+        List<JobDetail> jobDetails = new ArrayList<JobDetail>();
+//        for(int i=0; i<pet_imgList.size();i++){
+            JobDetail t = new JobDetail();
+            t.setsNo(Integer.valueOf(s_no.getText().toString()));
+        t.setJobNo(job_no.getText().toString());
+        t.setCustomerName(cust_name.getText().toString());
+        t.setContractNo(contact_no.getText().toString());
+        t.setPayType(spinner.getSelectedItem().toString());
+        t.setFrm(f_date.getText().toString());
+        t.setTo(t_date.getText().toString());
+        t.setPayAmount(Integer.valueOf(pay_amt.getText().toString()));
+        jobDetails.add(t);
+
+        JobDetail s = new JobDetail();
+        s.setsNo(Integer.valueOf(s_no1.getText().toString()));
+        s.setJobNo(job_no1.getText().toString());
+        s.setCustomerName(cust_name1.getText().toString());
+        s.setContractNo(contact_no1.getText().toString());
+        s.setPayType(spinner1.getSelectedItem().toString());
+        s.setFrm(f_date1.getText().toString());
+        s.setTo(t_date1.getText().toString());
+        s.setPayAmount(Integer.valueOf(pay_amt1.getText().toString()));
+        jobDetails.add(s);
+
+        JobDetail r = new JobDetail();
+        r.setsNo(Integer.valueOf(s_no2.getText().toString()));
+        r.setJobNo(job_no2.getText().toString());
+        r.setCustomerName(cust_name2.getText().toString());
+        r.setContractNo(contact_no2.getText().toString());
+        r.setPayType(spinner2.getSelectedItem().toString());
+        r.setFrm(f_date2.getText().toString());
+        r.setTo(t_date2.getText().toString());
+        r.setPayAmount(Integer.valueOf(pay_amt2.getText().toString()));
+        jobDetails.add(r);
+
+        JobDetail a = new JobDetail();
+        a.setsNo(Integer.valueOf(s_no3.getText().toString()));
+        a.setJobNo(job_no3.getText().toString());
+        a.setCustomerName(cust_name3.getText().toString());
+        a.setContractNo(contact_no3.getText().toString());
+        a.setPayType(spinner3.getSelectedItem().toString());
+        a.setFrm(f_date3.getText().toString());
+        a.setTo(t_date3.getText().toString());
+        a.setPayAmount(Integer.valueOf(pay_amt3.getText().toString()));
+        jobDetails.add(a);
+
+        JobDetail b = new JobDetail();
+        r.setsNo(Integer.valueOf(s_no4.getText().toString()));
+        r.setJobNo(job_no4.getText().toString());
+        r.setCustomerName(cust_name4.getText().toString());
+        r.setContractNo(contact_no4.getText().toString());
+        r.setPayType(spinner4.getSelectedItem().toString());
+        r.setFrm(f_date4.getText().toString());
+        r.setTo(t_date4.getText().toString());
+        r.setPayAmount(Integer.valueOf(pay_amt4.getText().toString()));
+        jobDetails.add(r);
+
+        JobDetail c = new JobDetail();
+        c.setsNo(Integer.valueOf(s_no5.getText().toString()));
+        c.setJobNo(job_no5.getText().toString());
+        c.setCustomerName(cust_name5.getText().toString());
+        c.setContractNo(contact_no5.getText().toString());
+        c.setPayType(spinner5.getSelectedItem().toString());
+        c.setFrm(f_date5.getText().toString());
+        c.setTo(t_date5.getText().toString());
+        c.setPayAmount(Integer.valueOf(pay_amt5.getText().toString()));
+        jobDetails.add(c);
+
+        JobDetail d = new JobDetail();
+        d.setsNo(Integer.valueOf(s_no6.getText().toString()));
+        d.setJobNo(job_no6.getText().toString());
+        d.setCustomerName(cust_name6.getText().toString());
+        d.setContractNo(contact_no6.getText().toString());
+        d.setPayType(spinner6.getSelectedItem().toString());
+        d.setFrm(f_date6.getText().toString());
+        d.setTo(t_date6.getText().toString());
+        d.setPayAmount(Integer.valueOf(pay_amt6.getText().toString()));
+        jobDetails.add(d);
+
+        JobDetail e = new JobDetail();
+        e.setsNo(Integer.valueOf(s_no7.getText().toString()));
+        e.setJobNo(job_no7.getText().toString());
+        e.setCustomerName(cust_name7.getText().toString());
+        e.setContractNo(contact_no7.getText().toString());
+        e.setPayType(spinner7.getSelectedItem().toString());
+        e.setFrm(f_date7.getText().toString());
+        e.setTo(t_date7.getText().toString());
+        e.setPayAmount(Integer.valueOf(pay_amt7.getText().toString()));
+        jobDetails.add(e);
+
+        JobDetail f = new JobDetail();
+        f.setsNo(Integer.valueOf(s_no8.getText().toString()));
+        f.setJobNo(job_no8.getText().toString());
+        f.setCustomerName(cust_name8.getText().toString());
+        f.setContractNo(contact_no8.getText().toString());
+        f.setPayType(spinner8.getSelectedItem().toString());
+        f.setFrm(f_date8.getText().toString());
+        f.setTo(t_date8.getText().toString());
+        f.setPayAmount(Integer.valueOf(pay_amt8.getText().toString()));
+        jobDetails.add(f);
+
+        JobDetail g = new JobDetail();
+        g.setsNo(Integer.valueOf(s_no9.getText().toString()));
+        g.setJobNo(job_no9.getText().toString());
+        g.setCustomerName(cust_name9.getText().toString());
+        g.setContractNo(contact_no9.getText().toString());
+        g.setPayType(spinner9.getSelectedItem().toString());
+        g.setFrm(f_date9.getText().toString());
+        g.setTo(t_date9.getText().toString());
+        g.setPayAmount(Integer.valueOf(pay_amt9.getText().toString()));
+        jobDetails.add(g);
+
+        submitDailyRequest.setJobDetails(jobDetails);
 
         Log.w(TAG," locationAddRequest"+ new Gson().toJson(submitDailyRequest));
         return submitDailyRequest;

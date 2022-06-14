@@ -38,6 +38,8 @@ public class PetCurrentImageListAdapter extends RecyclerView.Adapter<PetCurrentI
 
         Log.w(TAG,"ImagePic : "+petImgBean.getPet_img());
 
+
+
         if (petImgBean.getPet_img()!= null) {
             Glide.with(context)
                     .load(petImgBean.getPet_img())

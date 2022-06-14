@@ -54,6 +54,7 @@ public class JobFindListAdapter3 extends  RecyclerView.Adapter<RecyclerView.View
 
         Intent intent = new Intent("message_subject_intent3");
         intent.putExtra("cust3" , currentItem.getCUSNAME());
+        intent.putExtra("cont_no3" , currentItem.getCONTNO());
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
         if(currentItem.getJOBNO() != null){

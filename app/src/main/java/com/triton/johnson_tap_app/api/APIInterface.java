@@ -7,6 +7,7 @@ import com.triton.johnson_tap_app.JobFindRequest;
 import com.triton.johnson_tap_app.JobnoFindResponse;
 import com.triton.johnson_tap_app.SubmitDailyRequest;
 import com.triton.johnson_tap_app.SubmitDailyResponse;
+import com.triton.johnson_tap_app.data.form3submit.Form3SubmitIP;
 import com.triton.johnson_tap_app.requestpojo.AttendanceCreateRequest;
 import com.triton.johnson_tap_app.requestpojo.GetFieldListRequest;
 import com.triton.johnson_tap_app.requestpojo.LoginRequest;
@@ -56,6 +57,6 @@ public interface APIInterface {
     Call<BreedTypeResponse1> breedTypeResponseByPetIdCall(@Header("Content-Type") String type, @Body BreedTypeRequest1 breedTypeRequest);
 
     @POST("activity/form3_submit")
-    Call<SubmitDailyResponse> locationAddResponseCall(@Header("Content-Type") String type, @Body SubmitDailyRequest locationAddRequest);
+    Call<SubmitDailyResponse> locationAddResponseCall(@Header("Content-Type") String type, @Body Form3SubmitIP locationAddRequest);
 
 }

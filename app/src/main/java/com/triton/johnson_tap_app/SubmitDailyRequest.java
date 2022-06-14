@@ -212,8 +212,8 @@ public class SubmitDailyRequest {
         this.ded_other_two_value = ded_other_two_value;
     }
 
-    public String getTotal() {
-        return total;
+    public Integer getTotal() {
+        return Integer.valueOf(total);
     }
 
     public void setTotal(String total) {

@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Project/johnson/johnsontap-8.6.22/johnson_mobile_android_2021-main11/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/Android Project/johnson/johnsontap-8.6.22/johnson_mobile_android_2021-main11/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_daily_collection_details.xml" value="0.2" />
+        <entry key="..\:/Android Project/johnson/johnsontap-8.6.22/johnson_mobile_android_2021-main11/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/activity_test.xml" value="0.17074275362318841" />
+        <entry key="..\:/Android Project/johnson/johnsontap-8.6.22/johnson_mobile_android_2021-main11/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/add_education_details_model.xml" value="0.17074275362318841" />
+        <entry key="..\:/Android Project/johnson/johnsontap-8.6.22/johnson_mobile_android_2021-main11/johnson_mobile_android_2021-main/johnson_mobile_android_2021-main/app/src/main/res/layout/toast_background_color.xml" value="0.13697916666666668" />
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/drawable/arrow_drop_down.xml" value="0.165" />
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/drawable/background.xml" value="0.165" />
         <entry key="..\:/Android Project/johnson/johnsontap-9.5.22/johnsonapp_2022-main/app/src/main/res/drawable/background1.xml" value="0.165" />
