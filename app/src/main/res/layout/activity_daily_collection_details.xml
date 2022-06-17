@@ -192,40 +192,36 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp">
+    <RelativeLayout
+        android:id="@+id/rl_pet_pics"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
 
-                            <TextView
-                                android:id="@+id/txt_choose"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/rectangle_border_square"
-                                android:focusable="false"
-                                android:hint="Choose the File"
-                                android:inputType="none"
-                                android:padding="15dp"
-                                android:textSize="14sp"
-                                tools:ignore="Autofill,LabelFor" />
+        <TextView
+            android:id="@+id/txt_pet_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_corner"
+            android:focusable="false"
+            android:hint="@string/choose"
+            android:inputType="none"
+            android:padding="15dp"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp"
+            tools:ignore="Autofill,LabelFor" />
 
-                            <ImageView
-                                android:id="@+id/img_uploadimage"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:contentDescription="image"
-                                android:src="@drawable/add" />
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:contentDescription="@string/image"
+            android:src="@drawable/add" />
 
-                        </RelativeLayout>
-
+    </RelativeLayout>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -294,10 +290,8 @@
                 android:id="@+id/rv_upload_pet_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginLeft="450dp"
+                android:layout_marginLeft="150dp"
                 android:layout_marginTop="10dp" />
-
 
             <!-- 2 -->
 

@@ -36,9 +36,7 @@ public class Agent_ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agent_profile);
 
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        agent_code = (TextView)findViewById(R.id.agent_code);
-        agent_name = (TextView)findViewById(R.id.agent_name);
-        agent_status = (TextView)findViewById(R.id.agent_status);
+
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override

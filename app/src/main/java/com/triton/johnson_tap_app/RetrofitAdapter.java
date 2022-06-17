@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.triton.johnson_tap_app.activity.Daily_Collection_DetailsActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyViewHolder>{
 
@@ -26,6 +27,12 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         mcon = ctx;
         inflater = LayoutInflater.from(ctx);
         this.dataModelArrayList = dataModelArrayList;
+    }
+
+    public void filterList(ArrayList<ModelRecycler> filterllist)
+    {
+        dataModelArrayList = filterllist;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -50,7 +57,7 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         holder.textView_pop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                holder.lin.setBackgroundColor(Color.RED);
+                holder.lin.setBackgroundColor(Color.BLUE);
 
                 Intent intent = new Intent(mcon,Daily_Collection_DetailsActivity.class);
                 intent.putExtra("urt_no",dataModelArrayList.get(position).getUrtno());
@@ -66,7 +73,7 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         holder.textView1_pop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                holder.lin.setBackgroundColor(Color.RED);
+                holder.lin.setBackgroundColor(Color.BLUE);
 
                 Intent intent = new Intent(mcon,Daily_Collection_DetailsActivity.class);
                 intent.putExtra("urt_no",dataModelArrayList.get(position).getUrtno());
@@ -82,7 +89,7 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         holder.textView2_pop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                holder.lin.setBackgroundColor(Color.RED);
+                holder.lin.setBackgroundColor(Color.BLUE);
 
                 Intent intent = new Intent(mcon,Daily_Collection_DetailsActivity.class);
                 intent.putExtra("urt_no",dataModelArrayList.get(position).getUrtno());
@@ -98,7 +105,7 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         holder.textView3_pop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                holder.lin.setBackgroundColor(Color.RED);
+                holder.lin.setBackgroundColor(Color.BLUE);
 
                 Intent intent = new Intent(mcon,Daily_Collection_DetailsActivity.class);
                 intent.putExtra("urt_no",dataModelArrayList.get(position).getUrtno());
@@ -114,7 +121,7 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         holder.textView4_pop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                holder.lin.setBackgroundColor(Color.RED);
+                holder.lin.setBackgroundColor(Color.BLUE);
 
                 Intent intent = new Intent(mcon,Daily_Collection_DetailsActivity.class);
                 intent.putExtra("urt_no",dataModelArrayList.get(position).getUrtno());
@@ -130,7 +137,7 @@ public class RetrofitAdapter extends RecyclerView.Adapter<RetrofitAdapter.MyView
         holder.textView5_pop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                holder.lin.setBackgroundColor(Color.RED);
+                holder.lin.setBackgroundColor(Color.BLUE);
 
                 Intent intent = new Intent(mcon,Daily_Collection_DetailsActivity.class);
                 intent.putExtra("urt_no",dataModelArrayList.get(position).getUrtno());

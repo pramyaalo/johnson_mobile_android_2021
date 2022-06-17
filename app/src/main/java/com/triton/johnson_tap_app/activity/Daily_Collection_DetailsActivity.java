@@ -46,13 +46,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.canhub.cropper.CropImage;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.IOUtils;
 import com.google.gson.Gson;
 import com.triton.johnson_tap_app.DrawableClickListener;
+import com.triton.johnson_tap_app.ImageUploadActivity;
 import com.triton.johnson_tap_app.JobFindListAdapter;
 import com.triton.johnson_tap_app.JobFindListAdapter1;
 import com.triton.johnson_tap_app.JobFindListAdapter2;
@@ -111,18 +114,16 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     Spinner spinner, spinner1, spinner2, spinner3, spinner4, spinner5, spinner6, spinner7, spinner8, spinner9, other, other1;
     String[] courses = {"ADVANCE", "PART", "FINAL", "AS PER TERM"};
     String[] other_item = {"SD", "L.CESS", "WITH HELD", "PENALTY"};
-    ImageView iv_back, img_uploadimage;
+    ImageView iv_back;
     static EditText f_date,f_date1,f_date2,f_date3,f_date4,f_date5,f_date6,f_date7,f_date8,f_date9;
     static EditText t_date,t_date1,t_date2,t_date3,t_date4,t_date5,t_date6,t_date7,t_date8,t_date9;
     EditText date, chq_date, chq_no, rtgs_no, chq_amt, bank_name, utr_no, pay_amt, pay_amt1, pay_amt2, pay_amt3, pay_amt4, pay_amt5, pay_amt6, pay_amt7, pay_amt8, pay_amt9, pay_amt_total, agent_code, tds_it, tds_gst, remark;
     EditText job_no, job_no1, job_no2, job_no3, job_no4, job_no5, job_no6, job_no7, job_no8, job_no9, edt_other, edt_other1, contact_no, contact_no1, contact_no2, contact_no3, contact_no4, contact_no5, contact_no6, contact_no7, contact_no8, contact_no9;
     DatePickerDialog datepicker;
     String s_cust_name,s_cust_name1,s_cust_name2,s_cust_name3,s_cust_name4,s_cust_name5,s_cust_name6,s_cust_name7,s_cust_name8,s_cust_name9, s_cont_no,s_cont_no1,s_cont_no2,s_cont_no3,s_cont_no4,s_cont_no5,s_cont_no6,s_cont_no7,s_cont_no8,s_cont_no9;
-    static Long fromDate;
     RadioGroup rg, rg1;
     RadioButton rb_chq, rb_rtgs, rb_yes, rb_no;
     LinearLayout lin_chq_no, lin_rtgs_no, lin_chq_amt, lin_utr_no, lin_chq_date;
-    List<PetAppointmentCreateRequest.PetImgBean> pet_imgList = new ArrayList();
     ArrayList<PetAppointment> PetAppointmentCreateRequestList = new ArrayList<>();
     private List<SubmitDailyResponse.DataBean.JobDetail> JobDetailsBeanList;
     private List<JobnoFindResponse.DataBean> breedTypedataBeanList;
@@ -137,24 +138,14 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     JobFindListAdapter8 petBreedTypesListAdapter8;
     JobFindListAdapter9 petBreedTypesListAdapter9;
     private String PetBreedType = "";
-    MultipartBody.Part filePart;
-    private static final int REQUEST_CLINIC_CAMERA_PERMISSION_CODE = 785;
-    private static final int SELECT_CLINIC_CAMERA = 1000;
-    private static final int REQUEST_READ_CLINIC_PIC_PERMISSION = 786;
-    private static final int SELECT_CLINIC_PICTURE = 1001;
-    private String uploadimagepath = "";
+    String check_chq;
     private String Collection_type, Current_date, Agent_code, Cheq_no, Rtgs_no, Cheq_amount, Cheq_date, Bank_name,UTR_No, Ifsc_code, Third_party_chq, Ded_it, Ded_gst, Ded_other_one_type, Ded_other_one_value, Ded_other_two_type, Ded_other_two_value, Remarks, Created_by, uploaded_file_s, Pay_Total;
     TextView name_date, name_upload, name_agent, name_chq_no, name_rtgs_no, name_chq_date, name_chq_amt, name_bank, name_party, name_urt;
     Button submit;
-    String userid;
     String s_pay_amt = "", s_pay_amt1 = "0.0", s_pay_amt2 = "0.0", s_pay_amt3 = "0.0", s_pay_amt4 = "0.0", s_pay_amt5 = "0.0", s_pay_amt6 = "0.0", s_pay_amt7 = "0.0", s_pay_amt8 = "0.0", s_pay_amt9;
     Float n_chq_amt, n_tds_it, n_tds_gst, n_other_value, n_other_value1, n_sum, tot_sum;
    int num1, num2, num3, num4, num5, num6, num7, num8, num9, num10, sum;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rv_upload_pet_images)
-    RecyclerView rv_upload_pet_images;
     RecyclerView rv_breedtype,rv_breedtype1,rv_breedtype2,rv_breedtype3,rv_breedtype4,rv_breedtype5,rv_breedtype6,rv_breedtype7,rv_breedtype8,rv_breedtype9;
-    String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private Object PetAppointment;
     EditText s_no, s_no1, s_no2, s_no3, s_no4, s_no5, s_no6, s_no7, s_no8, s_no9, cust_name, cust_name1, cust_name2, cust_name3, cust_name4, cust_name5, cust_name6, cust_name7, cust_name8, cust_name9;
     String str_sno, str_sno1, str_sno2, str_sno3, str_sno4, str_sno5, str_sno6, str_sno7, str_sno8, str_sno9, str_jobno, str_jobno1, str_jobno2, str_jobno3, str_jobno4, str_jobno5, str_jobno6, str_jobno7, str_jobno8, str_jobno9;
@@ -162,8 +153,29 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     String str_pay_type, str_pay_type1, str_pay_type2, str_pay_type3, str_pay_type4, str_pay_type5, str_pay_type6, str_pay_type7, str_pay_type8, str_pay_type9, str_f_date, str_f_date1, str_f_date2, str_f_date3, str_f_date4, str_f_date5, str_f_date6, str_f_date7, str_f_date8, str_f_date9;
     String str_to_date, str_to_date1, str_to_date2, str_to_date3, str_to_date4, str_to_date5, str_to_date6, str_to_date7, str_to_date8, str_to_date9;
     String ss_urtno ="", ss_bank="", ss_amt="", ss_custname, ss_ifsc="", ss_balamt, ss_radio_button="", back ="";
-    int PERMISSION_CLINIC = 1;
     AlertDialog alertDialog;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.rl_pet_pics)
+    RelativeLayout rl_pet_pics;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.rv_upload_pet_images)
+    RecyclerView rv_upload_pet_images;
+
+    int PERMISSION_CLINIC = 1;
+    int PERMISSION_CERT = 2;
+    int PERMISSION_GOVT = 3;
+    int PERMISSION_PHOTO = 4;
+    MultipartBody.Part filePart;
+    private String uploadimagepath = "";
+    List<PetAppointmentCreateRequest.PetImgBean> pet_imgList = new ArrayList();
+    private String userid = "";
+    String[] PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
 
     @SuppressLint({"SetTextI18n", "Range"})
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,7 +297,6 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         lin_utr_no = (LinearLayout) findViewById(R.id.lin_utr_no);
         lin_chq_date = (LinearLayout) findViewById(R.id.lin_chq_date);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        img_uploadimage = (ImageView) findViewById(R.id.img_uploadimage);
         rg = (RadioGroup) findViewById(R.id.rg);
         rg1 = (RadioGroup) findViewById(R.id.rg1);
         rb_chq = (RadioButton) findViewById(R.id.rb_chq);
@@ -354,7 +365,6 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
             rb_chq.setChecked(true);
             rb_rtgs.setChecked(false);
         }
-
 
         Spannable name_Date = new SpannableString("Date : ");
         name_Date.setSpan(new ForegroundColorSpan(Color.BLACK), 0, name_Date.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -462,18 +472,13 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         oth1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         other1.setAdapter(oth1);
 
+        rl_pet_pics.setOnClickListener(v -> choosePetImage());
+
         iv_back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent send = new Intent(Daily_Collection_DetailsActivity.this, MainActivity.class);
 
                 startActivity(send);
-            }
-        });
-        img_uploadimage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                choosePetImage();
-
             }
         });
 
@@ -2406,11 +2411,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
                 if (rb_chq.isChecked()) {
 
-                    if (Current_date.equals("") || Agent_code.equals("") || Cheq_date.equals("") || Cheq_no.equals("") || Cheq_amount.equals("") ||Bank_name.equals("") || Ded_it.equals("") || Ded_gst.equals("")){
+                    if (Current_date.equals("") || Agent_code.equals("") || Cheq_date.equals("") || Cheq_no.equals("") || Cheq_amount.equals("") ||Bank_name.equals("")){
 
                         alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
 
-                                .setMessage("Please Fill the All Values")
+                                .setMessage("Please Fill the All Mandatory Values")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         alertDialog.dismiss();
@@ -2431,17 +2436,12 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                         if (!tot_sum.equals(n_sum)) {
                           alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
 
-                                    .setMessage("Value Not Match")
+                                    .setMessage("Amount Mismatch of total amount  with cheq amount + gst")
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                            alertDialog.dismiss();
                                         }
                                     })
-//                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        Toast.makeText(getApplicationContext(),"Nothing Happened",Toast.LENGTH_LONG).show();
-//                                    }
-//                                })
                                     .show();
                         } else {
 
@@ -2452,11 +2452,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
                 } else {
 
-                    if (Current_date.equals("") || Agent_code.equals("") || Rtgs_no.equals("") || Bank_name.equals("") || UTR_No.equals("") || Ded_it.equals("") || Ded_gst.equals("")){
+                    if (Current_date.equals("") || Agent_code.equals("") || Rtgs_no.equals("") || Bank_name.equals("") || UTR_No.equals("")){
 
                         alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
 
-                                .setMessage("Please Fill the All Values")
+                                .setMessage("Please Fill the All Mandatory Values")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         alertDialog.dismiss();
@@ -2476,7 +2476,7 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                         if (!tot_sum.equals(n_sum)) {
                            alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
 
-                                    .setMessage("Value Not Match")
+                                    .setMessage("Amount Mismatch of total amount  with cheq amount + gst")
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             alertDialog.dismiss();
@@ -2621,19 +2621,24 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
                 if (rb_chq.isChecked()) {
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
-                    alertDialogBuilder.setMessage("Allow");
-                    alertDialogBuilder.setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface arg0, int arg1) {
 
-                                    utr_no.setText("");
-                                    rtgs_no.setText("");
-                                }
-                            });
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+//                    alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
+//
+//                            .setMessage("Are you sure you want to change the collection type ?  If you change it will clear all the entered data.")
+//                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                                   utr_no.setText("");
+//                                }
+//                            })
+//                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                                    alertDialog.dismiss();
+//                                    rb_rtgs.setChecked(true);
+//                                }
+//                            })
+//                            .show();
 
                     Collection_type = "Chq";
                     utr_no.setFocusable(false);
@@ -2694,21 +2699,37 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
                 } else {
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
-                            alertDialogBuilder.setMessage("Allow");
-                            alertDialogBuilder.setPositiveButton("OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface arg0, int arg1) {
+                    alertDialog = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this)
 
-                                            chq_no.setText("");
-                                            chq_date.setText("");
-                                            chq_amt.setText("");
-                                        }
-                                    });
+                            .setMessage("Are you sure you want to change the collection type ?  If you change it will clear all the entered data!!!!!.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
+                                    chq_no.setText("");
+                                    chq_date.setText("");
+                                    chq_amt.setText("");
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
+                                   alertDialog.dismiss();
+                                   rb_chq.setChecked(true);
+                                    chq_no.setFocusable(true);
+                                    chq_no.setClickable(true);
+                                    chq_no.setCursorVisible(true);
+                                    chq_no.setFocusableInTouchMode(true);
+                                    chq_date.setFocusable(false);
+                                    chq_date.setClickable(true);
+                                    chq_date.setCursorVisible(false);
+                                    chq_date.setFocusableInTouchMode(false);
+                                    chq_amt.setFocusable(true);
+                                    chq_amt.setClickable(true);
+                                    chq_amt.setCursorVisible(true);
+                                    chq_amt.setFocusableInTouchMode(true);
+                                }
+                            })
+                            .show();
 
                     Collection_type = "RTGS";
                     chq_no.setFocusable(false);
@@ -2809,74 +2830,154 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
         job_no.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no.getText().toString();
-                jobFindResponseCall(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name.setText("");
+                    contact_no.setText("");
+                }
+                else {
+                    jobFindResponseCall(s_jobno);
+                }
                 return true;
             }
         });
 
         job_no1.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no1) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no1.getText().toString();
-                jobFindResponseCall1(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name1.setText("");
+                    contact_no1.setText("");
+                }
+                else {
+                    jobFindResponseCall1(s_jobno);
+                }
                 return true;
             }
         });
         job_no2.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no2) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no2.getText().toString();
-                jobFindResponseCall2(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name2.setText("");
+                    contact_no2.setText("");
+                }
+                else {
+                    jobFindResponseCall2(s_jobno);
+                }
                 return true;
             }
         });
 
         job_no3.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no3) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no3.getText().toString();
-                jobFindResponseCall3(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name3.setText("");
+                    contact_no3.setText("");
+                }
+                else {
+                    jobFindResponseCall3(s_jobno);
+                }
                 return true;
             }
         });
 
         job_no4.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no4) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no4.getText().toString();
-                jobFindResponseCall4(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name4.setText("");
+                    contact_no4.setText("");
+                }
+                else {
+                    jobFindResponseCall4(s_jobno);
+                }
                 return true;
             }
         });
         job_no5.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no5) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no5.getText().toString();
-                jobFindResponseCall5(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name5.setText("");
+                    contact_no5.setText("");
+                }
+                else {
+                    jobFindResponseCall5(s_jobno);
+                }
                 return true;
             }
         });
         job_no6.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no6) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no6.getText().toString();
-                jobFindResponseCall6(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name6.setText("");
+                    contact_no6.setText("");
+                }
+                else {
+                    jobFindResponseCall6(s_jobno);
+                }
                 return true;
             }
         });
         job_no7.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no7) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no7.getText().toString();
-                jobFindResponseCall7(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name7.setText("");
+                    contact_no7.setText("");
+                }
+                else {
+                    jobFindResponseCall7(s_jobno);
+                }
                 return true;
             }
         });
         job_no8.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no8) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no8.getText().toString();
-                jobFindResponseCall8(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name8.setText("");
+                    contact_no8.setText("");
+                }
+                else {
+                    jobFindResponseCall8(s_jobno);
+                }
                 return true;
             }
         });
         job_no9.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(job_no9) {
             public boolean onDrawableClick() {
+
                 String s_jobno = job_no9.getText().toString();
-                jobFindResponseCall9(s_jobno);
+
+                if(s_jobno.equals("")) {
+                    cust_name9.setText("");
+                    contact_no9.setText("");
+                }
+                else {
+                    jobFindResponseCall9(s_jobno);
+                }
                 return true;
             }
         });
@@ -3609,283 +3710,12 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
         rv_breedtype9.setAdapter(petBreedTypesListAdapter9);
     }
 
-    private void choosePetImage() {
-
-        if (pet_imgList != null && pet_imgList.size() >= 4) {
-
-            Toasty.warning(getApplicationContext(), "Sorry you can't Add more than 4", Toast.LENGTH_SHORT).show();
-
-        } else {
-            final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
-            //AlertDialog.Builder alert=new AlertDialog.Builder(this);
-            AlertDialog.Builder builder = new AlertDialog.Builder(Daily_Collection_DetailsActivity.this);
-            builder.setTitle("Choose option");
-            builder.setCancelable(false);
-
-
-            builder.setItems(items, (dialog, item) -> {
-                if (items[item].equals("Take Photo"))
-                {
-                    if (ContextCompat.checkSelfPermission(Daily_Collection_DetailsActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                    {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CLINIC_CAMERA_PERMISSION_CODE);
-                        }
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, SELECT_CLINIC_CAMERA);
-                    }
-
-                }
-
-                else if (items[item].equals("Choose from Library"))
-                {
-
-                    if (ContextCompat.checkSelfPermission(Daily_Collection_DetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                    {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_CLINIC_PIC_PERMISSION);
-                        }
-                    }
-
-                    else{
-
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_CLINIC_PICTURE);
-
-
-                    }
-                }
-
-                else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            });
-            builder.show();
-
-        }
-
-    }
-
-    private boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-        //	Toast.makeText(getActivity(),"kk",Toast.LENGTH_SHORT).show();
-        if(requestCode== SELECT_CLINIC_PICTURE || requestCode == SELECT_CLINIC_CAMERA)
-        {
-
-            if(requestCode == SELECT_CLINIC_CAMERA)
-            {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-                File file = new File(getFilesDir(), "Healthz1" + ".jpg");
-
-                OutputStream os;
-                try {
-                    os = new FileOutputStream(file);
-                    photo.compress(Bitmap.CompressFormat.JPEG, 100, os);
-                    os.flush();
-                    os.close();
-                } catch (Exception e) {
-                    Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
-                }
-                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
-                String currentDateandTime = sdf.format(new Date());
-
-                RequestBody requestFile = RequestBody.create(MediaType.parse("image*/"), file);
-
-                filePart = MultipartBody.Part.createFormData("sampleFile",  userid+currentDateandTime+file.getName(), requestFile);
-
-                uploadPetImage();
-
-            }
-
-            else{
-
-                try {
-
-                    if (resultCode == Activity.RESULT_OK)
-                    {
-
-                        Log.w("VALUEEEEEEE1111", " " + data);
-
-                        Uri selectedImageUri = data.getData();
-
-                        Log.w("selectedImageUri", " " + selectedImageUri);
-
-                        String filename = getFileName(selectedImageUri);
-
-                        Log.w("filename", " " + filename);
-
-                        String filePath = FileUtil.getPath(Daily_Collection_DetailsActivity.this,selectedImageUri);
-
-                        assert filePath != null;
-
-                        File file = new File(filePath); // initialize file here
-
-                        long length = file.length() / 1024; // Size in KB
-
-                        Log.w("filesize", " " + length);
-
-                        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
-                        String currentDateandTime = sdf.format(new Date());
-
-                        filePart = MultipartBody.Part.createFormData("sampleFile", userid+currentDateandTime+file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-
-                        uploadPetImage();
-
-
-                    }
-
-                    else if(resultCode == RESULT_CANCELED)
-                    {
-                        finish();
-
-                    }
-                } catch (Exception e) {
-
-                    Log.w("Exception", " " + e);
-                }
-
-            }
-
-        }
-    }
-
-
-
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
 
     }
-
-    @SuppressLint("LongLogTag")
-
-    private void uploadPetImage() {
-
-        APIInterface apiInterface = RetrofitClient.getImageClient().create(APIInterface.class);
-
-
-        Call<FileUploadResponse> call = apiInterface.getImageStroeResponse(filePart);
-
-
-        Log.w(TAG, "url  :%s" + call.request().url().toString());
-
-        call.enqueue(new Callback<FileUploadResponse>() {
-            @SuppressLint("LogNotTimber")
-            @Override
-            public void onResponse(@NonNull Call<FileUploadResponse> call, @NonNull Response<FileUploadResponse> response) {
-                if (response.body() != null) {
-                    if (200 == response.body().getCode()) {
-                        Log.w(TAG, "Profpic" + "--->" + new Gson().toJson(response.body()));
-
-                   /*     DocBusInfoUploadRequest.ClinicPicBean clinicPicBean = new DocBusInfoUploadRequest.ClinicPicBean(response.body().getData().trim());
-                        clinicPicBeans.add(clinicPicBean);*/
-                        uploadimagepath = response.body().getData();
-                        PetAppointmentCreateRequest.PetImgBean petImgBean = new PetAppointmentCreateRequest.PetImgBean();
-                        petImgBean.setPet_img(uploadimagepath);
-                        pet_imgList.add(petImgBean);
-                        if (uploadimagepath != null) {
-                            setView();
-                        }
-
-
-                    }
-
-                }
-
-
-            }
-
-            @SuppressLint("LogNotTimber")
-            @Override
-            public void onFailure(@NonNull Call<FileUploadResponse> call, @NonNull Throwable t) {
-                // avi_indicator.smoothToHide();
-                Log.w(TAG, "ServerUrlImagePath" + "On failure working" + t.getMessage());
-                //Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
-    private void setView() {
-        rv_upload_pet_images.setVisibility(View.VISIBLE);
-        rv_upload_pet_images.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        //rv_upload_pet_images.setLayoutManager(new LinearLayoutManager(this));
-        rv_upload_pet_images.setItemAnimator(new DefaultItemAnimator());
-        PetCurrentImageListAdapter petCurrentImageListAdapter = new PetCurrentImageListAdapter(getApplicationContext(), pet_imgList);
-        rv_upload_pet_images.setAdapter(petCurrentImageListAdapter);
-    }
-
-    @SuppressLint("Range")
-
-    public static String getFilePathFromURI(Context context, Uri contentUri) {
-        //copy file and send new file path
-        String fileName = getFileName(contentUri);
-        if (!TextUtils.isEmpty(fileName)) {
-            String path = context.getFilesDir() + "/" + "MyFirstApp/";
-
-            //String path = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS).getPath() + "/" + "MyFirstApp/";
-            // Create the parent path
-            File dir = new File(path);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String fullName = path + "mylog";
-            File copyFile = new File (fullName);
-
-            /* File copyFile = new File(Environment.DIRECTORY_DOWNLOADS + File.separator + fileName);*/
-            copy(context, contentUri, copyFile);
-            return copyFile.getAbsolutePath();
-        }
-        return null;
-    }
-
-    public static String getFileName(Uri uri) {
-        if (uri == null) return null;
-        String fileName = null;
-        String path = uri.getPath();
-        int cut = path.lastIndexOf('/');
-        if (cut != -1) {
-            fileName = path.substring(cut + 1);
-        }
-        return fileName;
-    }
-
-    public static void copy(Context context, Uri srcUri, File dstFile) {
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
-            if (inputStream == null) return;
-            OutputStream outputStream = new FileOutputStream(dstFile);
-         //   IOUtils.copyStream(inputStream, outputStream);
-            inputStream.close();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -3900,36 +3730,20 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else
-            {
                 s_cust_name = intent.getStringExtra("cust_name");
                 s_cont_no = intent.getStringExtra("cont_no");
                 s_cust_name1 = intent.getStringExtra("cust1");
                 s_cont_no1 = intent.getStringExtra("cont_no1");
+//                s_cust_name1 = intent.getStringExtra("cust1");
+//                s_cont_no1 = intent.getStringExtra("cont_no1");
                 cust_name.setText(s_cust_name);
                 contact_no.setText(s_cont_no);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
                 s_cust_name = cust_name.getText().toString();
                 s_cont_no = contact_no.getText().toString();
                 s_cust_name1 = intent.getStringExtra("cust1");
@@ -3938,21 +3752,12 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 cust_name1.setText(s_cust_name1);
                 contact_no.setText(s_cont_no);
                 contact_no1.setText(s_cont_no);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver2 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
                 s_cust_name2 = intent.getStringExtra("cust2");
@@ -3965,21 +3770,12 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no.setText(s_cont_no);
                 contact_no1.setText(s_cont_no1);
                 contact_no2.setText(s_cont_no2);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver3 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
                 s_cust_name2 = cust_name2.getText().toString();
@@ -3996,21 +3792,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no1.setText(s_cont_no1);
                 contact_no2.setText(s_cont_no2);
                 contact_no3.setText(s_cont_no3);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver4 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
 
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
@@ -4032,21 +3818,12 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no2.setText(s_cont_no2);
                 contact_no3.setText(s_cont_no3);
                 contact_no4.setText(s_cont_no4);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver5 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
                 s_cust_name2 = cust_name2.getText().toString();
@@ -4071,21 +3848,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no3.setText(s_cont_no3);
                 contact_no4.setText(s_cont_no4);
                 contact_no5.setText(s_cont_no5);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver6 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
 
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
@@ -4115,21 +3882,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no4.setText(s_cont_no4);
                 contact_no5.setText(s_cont_no5);
                 contact_no6.setText(s_cont_no6);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver7 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
 
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
@@ -4163,21 +3920,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no5.setText(s_cont_no5);
                 contact_no6.setText(s_cont_no6);
                 contact_no7.setText(s_cont_no7);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver8 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
 
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
@@ -4215,21 +3962,11 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no6.setText(s_cont_no6);
                 contact_no7.setText(s_cont_no7);
                 contact_no8.setText(s_cont_no8);
-            }
         }
     };
 
     public BroadcastReceiver mMessageReceiver9 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
-            String str_value = job_no.getText().toString();
-
-            if(str_value.equals("")) {
-
-                cust_name.setText("Not Found");
-                contact_no.setText("Not Found");
-            }
-            else {
 
                 s_cust_name = cust_name.getText().toString();
                 s_cust_name1 = cust_name1.getText().toString();
@@ -4271,7 +4008,6 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
                 contact_no7.setText(s_cont_no7);
                 contact_no8.setText(s_cont_no8);
                 contact_no9.setText(s_cont_no9);
-            }
         }
     };
 
@@ -4942,5 +4678,201 @@ public class Daily_Collection_DetailsActivity extends AppCompatActivity implemen
 
         Log.w(TAG," locationAddRequest"+ new Gson().toJson(submitDailyRequest));
         return submitDailyRequest;
+    }
+
+    private void choosePetImage() {
+
+        if (pet_imgList!=null && pet_imgList.size() >= 4) {
+
+            Toasty.warning(getApplicationContext(), " Sorry You Can't Add More Than 4", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            if (!hasPermissions(this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_CLINIC);
+            }
+
+            else
+            {
+                CropImage.activity().start(Daily_Collection_DetailsActivity.this);
+            }
+
+        }
+    }
+
+
+    private boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //	Toast.makeText(getActivity(),"kk",Toast.LENGTH_SHORT).show();
+
+        try {
+            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = null;
+                    if (result != null) {
+                        resultUri = result.getUriContent();
+                    }
+
+                    if (resultUri != null) {
+
+                        Log.w("selectedImageUri", " " + resultUri);
+
+                        String filename = getFileName(resultUri);
+
+                        Log.w("filename", " " + filename);
+
+                        String filePath = getFilePathFromURI(Daily_Collection_DetailsActivity.this, resultUri);
+
+                        assert filePath != null;
+
+                        File file = new File(filePath); // initialize file here
+
+                        long length = file.length() / 1024; // Size in KB
+
+                        Log.w("filesize", " " + length);
+
+                        if (length > 2000) {
+
+                            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("File Size")
+                                    .setContentText("Please choose file size less than 2 MB ")
+                                    .setConfirmText("Ok")
+                                    .show();
+                        } else {
+
+
+                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+                            String currentDateandTime = sdf.format(new Date());
+
+                            filePart = MultipartBody.Part.createFormData("sampleFile", userid + currentDateandTime + filename, RequestBody.create(MediaType.parse("image/*"), file));
+
+                            uploadPetImage();
+
+                        }
+
+
+                    } else {
+
+                        Toasty.warning(Daily_Collection_DetailsActivity.this, "Image Error!!Please upload Some other image", Toasty.LENGTH_LONG).show();
+                    }
+
+
+                }
+            }
+
+        }
+
+
+        catch (Exception e){
+            Log.w(TAG,"onActivityResult exception"+e.toString());
+        }
+    }
+
+    private void uploadPetImage() {
+
+        APIInterface apiInterface = RetrofitClient.getImageClient().create(APIInterface.class);
+
+        Call<FileUploadResponse> call = apiInterface.getImageStroeResponse(filePart);
+
+        Log.w(TAG, "url  :%s" + call.request().url().toString());
+
+        call.enqueue(new Callback<FileUploadResponse>() {
+            @SuppressLint("LogNotTimber")
+            @Override
+            public void onResponse(@NonNull Call<FileUploadResponse> call, @NonNull Response<FileUploadResponse> response) {
+
+                if (response.body() != null) {
+                    if (200 == response.body().getCode()) {
+                        Log.w(TAG, "Profpic" + "--->" + new Gson().toJson(response.body()));
+                        uploadimagepath = response.body().getData();
+                        PetAppointmentCreateRequest.PetImgBean petImgBean = new PetAppointmentCreateRequest.PetImgBean();
+                        petImgBean.setPet_img(uploadimagepath);
+                        pet_imgList.add(petImgBean);
+                        if (uploadimagepath != null) {
+                            setView();
+                        }
+
+                    }
+                }
+
+            }
+
+            @SuppressLint("LogNotTimber")
+            @Override
+            public void onFailure(@NonNull Call<FileUploadResponse> call, @NonNull Throwable t) {
+                // avi_indicator.smoothToHide();
+                Log.w(TAG, "ServerUrlImagePath" + "On failure working" + t.getMessage());
+                //Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void setView() {
+        rv_upload_pet_images.setVisibility(View.VISIBLE);
+        rv_upload_pet_images.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        //rv_upload_pet_images.setLayoutManager(new LinearLayoutManager(this));
+        rv_upload_pet_images.setItemAnimator(new DefaultItemAnimator());
+        PetCurrentImageListAdapter petCurrentImageListAdapter = new PetCurrentImageListAdapter(getApplicationContext(), pet_imgList);
+        rv_upload_pet_images.setAdapter(petCurrentImageListAdapter);
+    }
+    public static String getFilePathFromURI(Context context, Uri contentUri) {
+        //copy file and send new file path
+        String fileName = getFileName(contentUri);
+        if (!TextUtils.isEmpty(fileName)) {
+            String path = context.getFilesDir() + "/" + "MyFirstApp/";
+
+            //String path = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS).getPath() + "/" + "MyFirstApp/";
+            // Create the parent path
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            String fullName = path + "mylog";
+            File copyFile = new File (fullName);
+
+            /* File copyFile = new File(Environment.DIRECTORY_DOWNLOADS + File.separator + fileName);*/
+            copy(context, contentUri, copyFile);
+            return copyFile.getAbsolutePath();
+        }
+        return null;
+    }
+
+    public static String getFileName(Uri uri) {
+        if (uri == null) return null;
+        String fileName = null;
+        String path = uri.getPath();
+        int cut = path.lastIndexOf('/');
+        if (cut != -1) {
+            fileName = path.substring(cut + 1);
+        }
+        return fileName;
+    }
+
+    public static void copy(Context context, Uri srcUri, File dstFile) {
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
+            if (inputStream == null) return;
+            OutputStream outputStream = new FileOutputStream(dstFile);
+            IOUtils.copy(inputStream, outputStream);
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     }
