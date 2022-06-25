@@ -1,16 +1,23 @@
 package com.triton.johnson_tap_app.api;
 
-import com.triton.johnson_tap_app.AppointmentCheckResponse;
-import com.triton.johnson_tap_app.BreedTypeRequest;
+import com.triton.johnson_tap_app.ActivityGetListNumberResponsee;
 import com.triton.johnson_tap_app.BreedTypeRequest1;
-import com.triton.johnson_tap_app.BreedTypeResponse;
 import com.triton.johnson_tap_app.BreedTypeResponse1;
+import com.triton.johnson_tap_app.FilterPageInfoResponse;
 import com.triton.johnson_tap_app.GetFetchLatestVersionResponse;
 import com.triton.johnson_tap_app.JobFindRequest;
 import com.triton.johnson_tap_app.JobnoFindResponse;
+import com.triton.johnson_tap_app.SubmitDailyRequest;
+import com.triton.johnson_tap_app.SubmitDailyResponse;
+import com.triton.johnson_tap_app.data.form3submit.Form3SubmitIP;
+import com.triton.johnson_tap_app.requestpojo.ActivityGetListNumberRequest;
 import com.triton.johnson_tap_app.requestpojo.AttendanceCreateRequest;
+import com.triton.johnson_tap_app.requestpojo.GetFieldListRequest;
 import com.triton.johnson_tap_app.requestpojo.LoginRequest;
+import com.triton.johnson_tap_app.responsepojo.ActivityGetListNumberResponse;
 import com.triton.johnson_tap_app.responsepojo.FileUploadResponse;
+import com.triton.johnson_tap_app.responsepojo.FormDataStoreResponse;
+import com.triton.johnson_tap_app.responsepojo.GetFieldListResponse;
 import com.triton.johnson_tap_app.responsepojo.LoginResponse;
 import com.triton.johnson_tap_app.responsepojo.SuccessResponse;
 
@@ -41,14 +48,9 @@ public interface APIInterface {
     @POST("attendance/create")
     Call<SuccessResponse> attendanceCreateRequestCall(@Header("Content-Type") String type, @Body AttendanceCreateRequest attendanceCreateRequest);
 
-    /*Email OTP */
+//    /*Email OTP */
     @POST("activity/form3_rtgs_jobno_find")
     Call<JobnoFindResponse> JobnoFindResponseCall(@Header("Content-Type") String type, @Body JobFindRequest emailOTPRequest);
-
-
-//    @POST("activity/form3_rtgs_jobno_find")
-//    Call<BreedTypeResponse> breedTypeResponseByPetIdCall(@Header("Content-Type") String type, @Body BreedTypeRequest emailOTPRequest);
-
 
     /*Image upload*/
     @Multipart
@@ -58,4 +60,18 @@ public interface APIInterface {
     @POST("activity/get_joins_user_list")
     Call<BreedTypeResponse1> breedTypeResponseByPetIdCall(@Header("Content-Type") String type, @Body BreedTypeRequest1 breedTypeRequest);
 
+    @POST("activity/form3_submit")
+    Call<SubmitDailyResponse> locationAddResponseCall(@Header("Content-Type") String type, @Body Form3SubmitIP locationAddRequest);
+
+//    @GET("activity/form3_rtgs_list")
+//    Call<FilterPageInfoResponse> filterPageInfoResponseCall(@Header("Content-Type") String type);
+
+//    @GET("product_details/filter_conditions")
+//    Call<FilterPageInfoResponse> filterPageInfoResponseCall(@Header("Content-Type") String type);
+
+    @POST("activity/getlist_number")
+    Call<ActivityGetListNumberResponse> activityGetListNumberResponseCall(@Header("Content-Type") String type, @Body ActivityGetListNumberRequest activityGetListNumberRequest);
+
+    @GET("activity/form3_rtgs_list")
+    Call<ActivityGetListNumberResponsee> filterPageInfoResponseCall(@Header("Content-Type") String type);
 }

@@ -1,10 +1,15 @@
 package com.triton.johnson_tap_app;
 
+import java.util.List;
+
 public class JobnoFindResponse {
 
     private String Status;
     private String Message;
-    private DataBean Data;
+   // private DataBean Data;
+
+    private List<DataBean> Data;
+
     private int Code;
 
     public String getStatus() {
@@ -26,15 +31,23 @@ public class JobnoFindResponse {
 
     }
 
-    public DataBean getData() {
+//    public DataBean getData() {
+//        return Data;
+//    }
+//
+//    public void setData(DataBean Data) {
+//        this.Data = Data;
+//
+//    }
+
+    public List<DataBean> getData() {
         return Data;
     }
 
-    public void setData(DataBean Data) {
+    public void setData(List<DataBean> Data) {
         this.Data = Data;
 
     }
-
 
     public int getCode() {
         return Code;
@@ -51,25 +64,34 @@ public class JobnoFindResponse {
          * otp : 912364
          */
 
-        private String job_no;
-        private String cont_no;
+        private String JOBNO;
+        private String CUSNAME;
+        private String CONTNO;
 
-
-        public String getJob_no() {
-            return job_no;
+        public String getJOBNO() {
+            return JOBNO;
         }
 
-        public void setJob_no(String job_no) {
-            this.job_no = job_no;
+        public void setJOBNO(String JOBNO) {
+            this.JOBNO = JOBNO;
 
         }
 
-        public String getCont_no() {
-            return cont_no;
+        public String getCUSNAME() {
+            return CUSNAME;
         }
 
-        public void setCont_no(String cont_no) {
-            this.cont_no = cont_no;
+        public void setCUSNAME(String CUSNAME) {
+            this.CUSNAME = CUSNAME;
+
+        }
+
+        public String getCONTNO() {
+            return CONTNO;
+        }
+
+        public void setCONTNO(String CONTNO) {
+            this.CONTNO = CONTNO;
 
         }
 

@@ -1,25 +1,35 @@
 package com.triton.johnson_tap_app;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.triton.johnson_tap_app.activity.Daily_Collection_DetailsActivity;
 import com.triton.johnson_tap_app.activity.MainActivity;
+import com.triton.johnson_tap_app.responsepojo.JobNoManagementResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,11 +41,24 @@ public class RTGS_PopActivity extends AppCompatActivity {
     private RetrofitAdapter retrofitAdapter;
     private RecyclerView recyclerView;
     ImageView iv_back;
+    ArrayList<ModelRecycler> modelRecyclerArrayList;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.edt_search)
+    EditText edt_search;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_clearsearch)
+    ImageView img_clearsearch;
+
+    private String search_string ="";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_rtgs_pop);
+
+        ButterKnife.bind(this);
 
         iv_back = (ImageView) findViewById(R.id.iv_back);
         recyclerView = findViewById(R.id.recycler1);
@@ -47,6 +70,17 @@ public class RTGS_PopActivity extends AppCompatActivity {
                 Intent send = new Intent(RTGS_PopActivity.this, Daily_Collection_DetailsActivity.class);
                 send.putExtra("Radio_button","RTGS");
                 startActivity(send);
+            }
+        });
+
+        edt_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                img_clearsearch.setVisibility(View.VISIBLE);
+                String Searchvalue = edt_search.getText().toString();
+                Log.w(TAG,"Search Value---"+Searchvalue);
+                filter(Searchvalue);
+                return false;
             }
         });
 
@@ -95,7 +129,7 @@ public class RTGS_PopActivity extends AppCompatActivity {
             JSONObject obj = new JSONObject(response);
             if(obj.optString("Status").equals("Success")){
 
-                ArrayList<ModelRecycler> modelRecyclerArrayList = new ArrayList<>();
+                modelRecyclerArrayList = new ArrayList<>();
                 JSONArray dataArray  = obj.getJSONArray("Data");
 
                 for (int i = 0; i < dataArray.length(); i++) {
@@ -127,4 +161,22 @@ public class RTGS_PopActivity extends AppCompatActivity {
         }
 
     }
+
+    private void filter(String text) {
+     //   ArrayList<CourseModal> filteredlist = new ArrayList<>();
+        modelRecyclerArrayList = new ArrayList<>();
+        Log.d("moddd", modelRecyclerArrayList.toString() + "---->" +modelRecyclerArrayList.size());
+
+        for (ModelRecycler item : modelRecyclerArrayList) {
+            if (item.getUrtno().toLowerCase().contains(text.toLowerCase()) || item.getAmount().toLowerCase().contains(text.toLowerCase())) {
+                modelRecyclerArrayList.add(item);
+            }
+        }
+        if (modelRecyclerArrayList.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            retrofitAdapter.filterList(modelRecyclerArrayList);
+        }
+    }
+
 }

@@ -1,12 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.lifecycle:lifecycle-common:2.4.0">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.4.0/1fdb7349701e9cf2f0a69fc10642b6fef6bb3e12/lifecycle-common-2.4.0.jar!/" />
+=======
+>>>>>>> 1886c6cf0070bc09d6f4f45f8e88d6f5a19ddb4b
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.4.0/1fdb7349701e9cf2f0a69fc10642b6fef6bb3e12/lifecycle-common-2.4.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.4.0/29609e3d01eaafd06c688c5366154174cf686c12/lifecycle-common-2.4.0-sources.jar!/" />
+=======
+>>>>>>> 1886c6cf0070bc09d6f4f45f8e88d6f5a19ddb4b
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.4.0/29609e3d01eaafd06c688c5366154174cf686c12/lifecycle-common-2.4.0-sources.jar!/" />
     </SOURCES>
   </library>

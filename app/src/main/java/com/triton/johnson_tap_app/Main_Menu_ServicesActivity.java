@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.triton.johnson_tap_app.activity.MainActivity;
@@ -24,6 +25,10 @@ public class Main_Menu_ServicesActivity extends AppCompatActivity implements Ada
 
    LinearLayout menu_service, menu_view_status, menu_change_password, menu_agent_profile;
    ImageView logout,iv_back,profile_gray,profile_green;
+   CharSequence[] values = {"Select logout reason","Day out","Leave","Permission","Office/Training","STANDBY"};
+    AlertDialog alertDialog1;
+    String str_value;
+    TextView spinner_txt;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +45,6 @@ public class Main_Menu_ServicesActivity extends AppCompatActivity implements Ada
         profile_green = (ImageView) findViewById(R.id.profile_green);
 
         iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
 
                 Intent send = new Intent(Main_Menu_ServicesActivity.this, Dashbaord_MainActivity.class);
@@ -123,7 +127,7 @@ public class Main_Menu_ServicesActivity extends AppCompatActivity implements Ada
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(Main_Menu_ServicesActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.dialog_logout, null);
-                final Spinner spinner = (Spinner) mView.findViewById(R.id.spinner);
+                spinner_txt = (TextView) mView.findViewById(R.id.spinner_txt);
                 Button yes = (Button) mView.findViewById(R.id.btn_yes);
                 Button no = (Button) mView.findViewById(R.id.btn_no);
 
@@ -131,20 +135,15 @@ public class Main_Menu_ServicesActivity extends AppCompatActivity implements Ada
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
 
-                spinner.setOnItemSelectedListener(Main_Menu_ServicesActivity.this);
+                spinner_txt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                List categories = new ArrayList();
-                categories.add("Day out");
-                categories.add("Leave");
-                categories.add("Permission");
-                categories.add("Office/Training");
-                categories.add("STANDBY");
+                        CreateAlertDialogWithRadioButtonGroup() ;
 
-                ArrayAdapter dataAdapter = new ArrayAdapter (Main_Menu_ServicesActivity.this, R.layout.spinner_item, categories);
+                    }
+                });
 
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                spinner.setAdapter(dataAdapter);
 
                 yes.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -169,6 +168,51 @@ public class Main_Menu_ServicesActivity extends AppCompatActivity implements Ada
                 });
             }
         });
+    }
+
+    public void CreateAlertDialogWithRadioButtonGroup(){
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Main_Menu_ServicesActivity.this);
+
+      //  builder.setTitle("Select Your Choice");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                switch(item)
+                {
+                    case 0:
+                        spinner_txt.setText("Select logout reason");
+                        break;
+
+                    case 1:
+                        spinner_txt.setText("Day out");
+                        break;
+
+                    case 2:
+                        spinner_txt.setText("Leave");
+                        break;
+
+                    case 3:
+                        spinner_txt.setText("Permission");
+                        break;
+
+                    case 4:
+                        spinner_txt.setText("Office/Training");
+                        break;
+
+                    case 5:
+                        spinner_txt.setText("STANDBY");
+                        break;
+                }
+                alertDialog1.dismiss();
+            }
+        });
+        alertDialog1 = builder.create();
+        alertDialog1.show();
+
     }
 
     public void onItemSelected(AdapterView parent, View view, int position, long id) {

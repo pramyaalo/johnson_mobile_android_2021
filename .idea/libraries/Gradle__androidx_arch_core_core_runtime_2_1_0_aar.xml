@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.arch.core:core-runtime:2.1.0@aar">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/771d010818804dd9a48a9b799b566203/transformed/core-runtime-2.1.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/771d010818804dd9a48a9b799b566203/transformed/core-runtime-2.1.0/res" />
       <root url="file://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/transforms-3/771d010818804dd9a48a9b799b566203/transformed/core-runtime-2.1.0/AndroidManifest.xml" />
@@ -11,6 +12,14 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../johnsonapp_2022-main-5.4.22/johnsonapp_2022-main/caches/modules-2/files-2.1/androidx.arch.core/core-runtime/2.1.0/f19886651c9946b39f83d8c184fd0e2ce9f43c16/core-runtime-2.1.0-sources.jar!/" />
+=======
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/7f77211dc3957816c1268b666c0c7744/transformed/core-runtime-2.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7f77211dc3957816c1268b666c0c7744/transformed/core-runtime-2.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7f77211dc3957816c1268b666c0c7744/transformed/core-runtime-2.1.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+>>>>>>> 1886c6cf0070bc09d6f4f45f8e88d6f5a19ddb4b
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.arch.core/core-runtime/2.1.0/f19886651c9946b39f83d8c184fd0e2ce9f43c16/core-runtime-2.1.0-sources.jar!/" />
     </SOURCES>
   </library>

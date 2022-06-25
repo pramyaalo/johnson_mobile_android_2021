@@ -46,7 +46,8 @@ public class Preventive_ServiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent send = new Intent(Preventive_ServiceActivity.this,ServicesActivity.class);
+                Intent send = new Intent(Preventive_ServiceActivity.this,Paused_ServicesActivity.class);
+                send.putExtra("value","pasused");
                 startActivity(send);
 
             }

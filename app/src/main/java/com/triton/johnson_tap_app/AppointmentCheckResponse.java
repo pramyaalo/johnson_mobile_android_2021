@@ -9,6 +9,7 @@ public class AppointmentCheckResponse {
      * Code : 200
      */
 
+
     private String Status;
     private String Message;
     private DataBean Data;

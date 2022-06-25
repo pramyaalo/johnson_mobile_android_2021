@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#B00303"
+    android:background="#213e9a"
     android:padding="5dp">
 
     <TextView
@@ -18,18 +18,22 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-    <Spinner
-        android:id="@+id/spinner"
+    <TextView
+        android:id="@+id/spinner_txt"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/spinner_background1"
         android:drawablePadding="30dp"
-        android:paddingLeft="30dip"
-        android:paddingRight="30dip"
+        android:textColor="#000000"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:hint="Select Logout Reason"
+        android:paddingRight="10dp"
+        android:drawableRight="@drawable/arrow_drop_down"
+        android:background="#eeeeee"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <LinearLayout
@@ -49,11 +53,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:theme="@style/Button1Style"
-            android:textColor="#B00303"/>
+            android:textColor="#213e9a"/>
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"/>
 
         <Button
             android:text="No"
@@ -65,7 +66,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:theme="@style/Button1Style"
-            android:textColor="#B00303"/>
+            android:textColor="#213e9a"/>
 
 
     </LinearLayout>

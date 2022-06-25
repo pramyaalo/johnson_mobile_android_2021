@@ -51,28 +51,59 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <TextView
-                android:layout_width="400dp"
-                android:layout_height="wrap_content"
-                android:text="Search Job No"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-               android:gravity="end"
-                android:textColor="#000000"
-                android:textSize="15dp"/>
-
-            <SearchView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/rectangle_border_square"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="300dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"/>
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/new_rounded_corner_btn_white"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/img_search"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="false"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_loctn_search" />
+
+
+                <EditText
+                    android:id="@+id/edt_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@id/img_search"
+                    android:background="@null"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:hint="@string/search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/gray_btn_bg_pressed_color"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
+                <ImageView
+                    android:id="@+id/img_clearsearch"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_delete"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
